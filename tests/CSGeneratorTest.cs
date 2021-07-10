@@ -16,6 +16,6 @@ namespace IDisposableGenerator.Tests
                 sourceGenerators,
                 project.AnalyzerOptions.AdditionalFiles,
                 (CSharpParseOptions)project.ParseOptions!,
-                new OptionsProvider(project.AnalyzerOptions.AnalyzerConfigOptionsProvider, GlobalOptions));
+                new OptionsProvider(project.AnalyzerOptions.AnalyzerConfigOptionsProvider, this.GlobalOptions));
     }
 }

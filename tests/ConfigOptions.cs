@@ -16,12 +16,12 @@ namespace IDisposableGenerator.Tests
         [ExcludeFromCodeCoverage]
         public ConfigOptions(AnalyzerConfigOptions workspaceOptions, List<(string, string)> globalOptions)
         {
-            _workspaceOptions = workspaceOptions;
-            _globalOptions = globalOptions.ToDictionary( t => t.Item1, t => t.Item2);
+            this._workspaceOptions = workspaceOptions;
+            this._globalOptions = globalOptions.ToDictionary( t => t.Item1, t => t.Item2);
         }
 
         [ExcludeFromCodeCoverage]
         public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
-            => _workspaceOptions.TryGetValue(key, out value) || _globalOptions.TryGetValue(key, out value);
+            => this._workspaceOptions.TryGetValue(key, out value) || this._globalOptions.TryGetValue(key, out value);
     }
 }

@@ -14,8 +14,8 @@ namespace IDisposableGenerator.Tests
 
         public OptionsProvider(AnalyzerConfigOptionsProvider analyzerConfigOptionsProvider, List<(string, string)> globalOptions)
         {
-            _analyzerConfigOptionsProvider = analyzerConfigOptionsProvider;
-            GlobalOptions = new ConfigOptions(_analyzerConfigOptionsProvider.GlobalOptions, globalOptions);
+            this._analyzerConfigOptionsProvider = analyzerConfigOptionsProvider;
+            this.GlobalOptions = new ConfigOptions(this._analyzerConfigOptionsProvider.GlobalOptions, globalOptions);
         }
 
         [ExcludeFromCodeCoverage]
@@ -23,10 +23,10 @@ namespace IDisposableGenerator.Tests
 
         [ExcludeFromCodeCoverage]
         public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
-            => _analyzerConfigOptionsProvider.GetOptions(tree);
+            => this._analyzerConfigOptionsProvider.GetOptions(tree);
 
         [ExcludeFromCodeCoverage]
         public override AnalyzerConfigOptions GetOptions(AdditionalText textFile)
-            => _analyzerConfigOptionsProvider.GetOptions(textFile);
+            => this._analyzerConfigOptionsProvider.GetOptions(textFile);
     }
 }
