@@ -1,5 +1,6 @@
 namespace IDisposibleGenerator
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.CodeAnalysis;
@@ -27,8 +28,8 @@ namespace IDisposibleGenerator
                 var members = testClass.GetMembers();
                 foreach (var att in testClass.GetAttributes())
                 {
-                    if (!att.AttributeClass!.Name.Equals("GenerateDisposeAttribute") &&
-                        !att.AttributeClass.FullNamespace().Equals("IDisposableGenerator"))
+                    if (!att.AttributeClass!.Name.Equals("GenerateDisposeAttribute", StringComparison.Ordinal) &&
+                        !att.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal))
                     {
                         continue;
                     }
@@ -66,45 +67,25 @@ namespace IDisposibleGenerator
 
         private void CheckAttributesOnMember(AttributeData? attr, ISymbol member, INamedTypeSymbol testClass)
         {
-            switch (attr!.AttributeClass!.Name)
+            foreach (var classItem in this.WorkItems.Where(item => item.ContainsClass(testClass)).Select(item => item.GetClassItems(testClass)))
             {
-                case "DisposeFieldAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", System.StringComparison.Ordinal):
+                switch (attr!.AttributeClass!.Name)
                 {
-                    foreach (var (classItem, arg) in this.WorkItems.SelectMany(
-                        item => item.Classes.Where(classItem => classItem.Name!.Equals(testClass.Name, System.StringComparison.Ordinal))).SelectMany(
-                        classItem => attr.ConstructorArguments.TakeWhile(_ => attr.ConstructorArguments.Length <= 1).Select(arg => (classItem, arg))))
+                    case "DisposeFieldAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal):
                     {
-                        if ((bool)arg.Value!)
-                        {
-                            classItem.Owns.Add(member.Name);
-                        }
-                        else
-                        {
-                            classItem.Fields.Add(member.Name);
-                        }
+                        classItem?.AddField(attr.ConstructorArguments[0], member);
+                        break;
                     }
-
-                    break;
-                }
-                case "SetNullOnDisposeAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", System.StringComparison.Ordinal):
-                {
-                    foreach (var classItem in this.WorkItems.SelectMany(
-                        item => item.Classes.Where(classItem => classItem.Name!.Equals(testClass.Name, System.StringComparison.Ordinal))))
+                    case "SetNullOnDisposeAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal):
                     {
-                        classItem.SetNull.Add(member.Name);
+                        classItem?.AddSetNull(member);
+                        break;
                     }
-
-                    break;
-                }
-                case "CallOnDisposeAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", System.StringComparison.Ordinal):
-                {
-                    foreach (var classItem in this.WorkItems.SelectMany(
-                        item => item.Classes.Where(classItem => classItem.Name!.Equals(testClass.Name, System.StringComparison.Ordinal))))
+                    case "CallOnDisposeAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal):
                     {
-                        classItem.Methods.Add(member.Name);
+                        classItem?.AddMethod(member);
+                        break;
                     }
-
-                    break;
                 }
             }
         }
