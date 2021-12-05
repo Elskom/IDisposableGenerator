@@ -1,6 +1,12 @@
 # IDisposableGenerator
 Source Generator Generating the Dispose functions in Disposables.
 
+## Code Ownership
+
+All code used is copyright of Elskom org, with the exception of Roslyn which is copyright of the .NET Foundation and it's contributors.
+
+The dependencies of the unit tests are copyright of their respective owners.
+
 ## Status
 
 This project is currently actively maintained whenever an issue happens (or whenever major roslyn changes happens that break it).
