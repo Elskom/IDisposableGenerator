@@ -8,7 +8,7 @@ namespace IDisposableGenerator;
 /// </remarks>
 internal class SyntaxReceiver : ISyntaxContextReceiver
 {
-    public List<WorkItem> WorkItems { get; } = new();
+    public WorkItem WorkItem { get; } = new();
 
     /// <summary>
     /// Called for every syntax node in the compilation, we can inspect the nodes and save any information useful for generation
@@ -16,71 +16,69 @@ internal class SyntaxReceiver : ISyntaxContextReceiver
     public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
     {
         // any field with at least one attribute is a candidate for property generation
-        if (context.Node is ClassDeclarationSyntax classDeclarationSyntax)
+        if (context.Node is not ClassDeclarationSyntax classDeclarationSyntax)
         {
-            var testClass = (INamedTypeSymbol)context.SemanticModel.GetDeclaredSymbol(classDeclarationSyntax)!;
-            var members = testClass.GetMembers();
-            foreach (var att in testClass.GetAttributes())
-            {
-                if (!att.AttributeClass!.Name.Equals("GenerateDisposeAttribute", StringComparison.Ordinal) &&
-                    !att.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal))
-                {
-                    continue;
-                }
+            return;
+        }
 
-                WorkItem workItem = new()
-                {
-                    Namespace = testClass.FullNamespace(),
-                    Classes = { GetClassItem(att, testClass) },
-                };
-                this.WorkItems.Add(workItem);
-            }
-
-            foreach (var (member, attr) in members.SelectMany(member => member.GetAttributes().Select(attr => (member, attr))))
+        var testClass = context.SemanticModel.GetDeclaredSymbol(classDeclarationSyntax)!;
+        
+        // Avoid a bug that would set namespace to "IDisposableGenerator"
+        // instead of the namespace that the WorkItem's classes are in.
+        if (string.IsNullOrEmpty(this.WorkItem.Namespace)
+            && !testClass.FullNamespaceEquals("IDisposableGenerator"))
+        {
+            this.WorkItem.Namespace = testClass.FullNamespace();
+        }
+        
+        var classItemsQuery =
+            from att in testClass.GetAttributes()
+            where att.AttributeClass!.Name switch
             {
-                this.CheckAttributesOnMember(attr, member, testClass);
+                "GenerateDisposeAttribute" => true,
+                _ => false,
             }
+            select GetClassItem(att, testClass);
+        var memberQuery =
+            from member in testClass.GetMembers()
+            select member;
+        foreach (var classItem in classItemsQuery)
+        {
+            this.WorkItem.Classes.Add(classItem);
+        }
+        
+        foreach (var member in memberQuery)
+        {
+            this.CheckAttributesOnMember(member, testClass);
         }
     }
 
-    private static ClassItems GetClassItem(AttributeData att, INamedTypeSymbol testClass)
+    private static ClassItems GetClassItem(AttributeData attr, INamedTypeSymbol testClass)
     {
-        ClassItems classItems = new()
+        var result = new ClassItems
         {
             Name = testClass.Name,
             Accessibility = testClass.DeclaredAccessibility,
+            Stream = (bool)attr.ConstructorArguments[0].Value!,
         };
 
-        foreach (var arg in att.ConstructorArguments)
-        {
-            classItems.Stream = (bool)arg.Value!;
-        }
-
-        return classItems;
+        return result;
     }
 
-    private void CheckAttributesOnMember(AttributeData? attr, ISymbol member, INamedTypeSymbol testClass)
+    private void CheckAttributesOnMember(ISymbol member, INamedTypeSymbol testClass)
     {
-        foreach (var classItem in this.WorkItems.Where(item => item.ContainsClass(testClass)).Select(item => item.GetClassItems(testClass)))
+        var classItem = this.WorkItem.GetClassItems(testClass)!;
+        foreach (var attr in member.GetAttributes())
         {
-            switch (attr!.AttributeClass!.Name)
+            _ = attr!.AttributeClass!.Name switch
             {
-                case "DisposeFieldAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal):
-                {
-                    classItem?.AddField(attr.ConstructorArguments[0], member);
-                    break;
-                }
-                case "SetNullOnDisposeAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal):
-                {
-                    classItem?.AddSetNull(member);
-                    break;
-                }
-                case "CallOnDisposeAttribute" when attr.AttributeClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal):
-                {
-                    classItem?.AddMethod(member);
-                    break;
-                }
-            }
+                "DisposeFieldAttribute" => classItem.AddField(attr.ConstructorArguments[0], member),
+                "SetNullOnDisposeAttribute" => classItem.AddSetNull(member),
+                "CallOnDisposeAttribute" => classItem.AddMethod(member),
+
+                // cannot throw here because the attribute in this case should be ignored.
+                _ => false,
+            };
         }
     }
 }
