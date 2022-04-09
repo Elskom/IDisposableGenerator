@@ -1,27 +1,26 @@
-namespace IDisposableGenerator.Tests
+namespace IDisposableGenerator.Tests;
+
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Microsoft.CodeAnalysis.Diagnostics;
+
+/// <summary>
+/// Allows adding additional global options
+/// </summary>
+internal class ConfigOptions : AnalyzerConfigOptions
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using Microsoft.CodeAnalysis.Diagnostics;
+    private readonly AnalyzerConfigOptions _workspaceOptions;
+    private readonly Dictionary<string, string> _globalOptions;
 
-    /// <summary>
-    /// Allows adding additional global options
-    /// </summary>
-    internal class ConfigOptions : AnalyzerConfigOptions
+    [ExcludeFromCodeCoverage]
+    public ConfigOptions(AnalyzerConfigOptions workspaceOptions, List<(string, string)> globalOptions)
     {
-        private readonly AnalyzerConfigOptions _workspaceOptions;
-        private readonly Dictionary<string, string> _globalOptions;
-
-        [ExcludeFromCodeCoverage]
-        public ConfigOptions(AnalyzerConfigOptions workspaceOptions, List<(string, string)> globalOptions)
-        {
-            this._workspaceOptions = workspaceOptions;
-            this._globalOptions = globalOptions.ToDictionary( t => t.Item1, t => t.Item2);
-        }
-
-        [ExcludeFromCodeCoverage]
-        public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
-            => this._workspaceOptions.TryGetValue(key, out value) || this._globalOptions.TryGetValue(key, out value);
+        this._workspaceOptions = workspaceOptions;
+        this._globalOptions = globalOptions.ToDictionary( t => t.Item1, t => t.Item2);
     }
+
+    [ExcludeFromCodeCoverage]
+    public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
+        => this._workspaceOptions.TryGetValue(key, out value) || this._globalOptions.TryGetValue(key, out value);
 }
