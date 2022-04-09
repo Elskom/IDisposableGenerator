@@ -1,23 +1,22 @@
-namespace IDisposibleGenerator
+namespace IDisposibleGenerator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.CodeAnalysis;
+
+internal class WorkItem
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.CodeAnalysis;
+    public string? Namespace { get; set; }
+    public List<ClassItems> Classes { get; } = new();
 
-    internal class WorkItem
+    public ClassItems? GetClassItems(INamedTypeSymbol testClass)
     {
-        public string? Namespace { get; set; }
-        public List<ClassItems> Classes { get; } = new();
+        return this.Classes.FirstOrDefault(classItem => classItem.Name!.Equals(testClass.Name, StringComparison.Ordinal));
+    }
 
-        public ClassItems? GetClassItems(INamedTypeSymbol testClass)
-        {
-            return this.Classes.FirstOrDefault(classItem => classItem.Name!.Equals(testClass.Name, StringComparison.Ordinal));
-        }
-
-        public bool ContainsClass(INamedTypeSymbol testClass)
-        {
-            return GetClassItems(testClass) is not null;
-        }
+    public bool ContainsClass(INamedTypeSymbol testClass)
+    {
+        return GetClassItems(testClass) is not null;
     }
 }
