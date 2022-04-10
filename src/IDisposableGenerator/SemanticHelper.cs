@@ -1,4 +1,4 @@
-namespace IDisposibleGenerator;
+namespace IDisposableGenerator;
 
 internal static class SemanticHelper
 {

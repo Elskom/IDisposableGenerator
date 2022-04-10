@@ -355,7 +355,7 @@ namespace MyApp
                 await File.ReadAllTextAsync(
                     "../../../../content/cs/any/SetNullOnDisposeAttribute.cs").ConfigureAwait(false));
             test.TestState.GeneratedSources.Add(
-                (typeof(IDisposibleGenerator.IDisposableGenerator), "Disposables.g.cs", generatedSource));
+                (typeof(IDisposableGenerator), "Disposables.g.cs", generatedSource));
         }
         else
         {

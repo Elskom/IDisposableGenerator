@@ -1,4 +1,4 @@
-﻿namespace IDisposibleGenerator;
+﻿namespace IDisposableGenerator;
 
 [Generator]
 public class IDisposableGenerator : ISourceGenerator
