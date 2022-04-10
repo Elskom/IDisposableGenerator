@@ -1,6 +1,9 @@
 <Project>
 
   <ItemGroup>
+    <Compile Update="IDisposableGeneratorTests.*.cs">
+      <DependentUpon>IDisposableGeneratorTests.cs</DependentUpon>
+    </Compile>
     <Using Include="System.Collections.Immutable" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="Microsoft.CodeAnalysis" />
