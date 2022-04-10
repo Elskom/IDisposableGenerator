@@ -1,4 +1,4 @@
-namespace IDisposibleGenerator;
+namespace IDisposableGenerator;
 
 /// <summary>
 /// This is used to process the syntax tree. The output is "work items", which are fed into the code generators.
