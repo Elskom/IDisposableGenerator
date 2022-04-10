@@ -18,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="$BaseOutputPath$IDisposableGenerator.dll" target="analyzers\cs\IDisposableGenerator.dll" />
+    <file src="$BaseOutputPath$IDisposableGenerator.dll" target="analyzers\dotnet\cs\IDisposableGenerator.dll" />
     <file src="..\..\tools\**" target="tools\" />
   </files>
 </package>
