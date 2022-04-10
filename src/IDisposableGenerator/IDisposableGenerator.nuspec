@@ -19,21 +19,6 @@
   </metadata>
   <files>
     <file src="$BaseOutputPath$IDisposableGenerator.dll" target="analyzers\cs\IDisposableGenerator.dll" />
-    <file src="$BaseOutputPath$Microsoft.CodeAnalysis.dll" target="analyzers\cs\Microsoft.CodeAnalysis.dll" />
-    <file src="$BaseOutputPath$cs\**" target="analyzers\cs\cs\" />
-    <file src="$BaseOutputPath$de\**" target="analyzers\cs\de\" />
-    <file src="$BaseOutputPath$es\**" target="analyzers\cs\es\" />
-    <file src="$BaseOutputPath$fr\**" target="analyzers\cs\fr\" />
-    <file src="$BaseOutputPath$it\**" target="analyzers\cs\it\" />
-    <file src="$BaseOutputPath$ja\**" target="analyzers\cs\ja\" />
-    <file src="$BaseOutputPath$ko\**" target="analyzers\cs\ko\" />
-    <file src="$BaseOutputPath$pl\**" target="analyzers\cs\pl\" />
-    <file src="$BaseOutputPath$pt-BR\**" target="analyzers\cs\pt-BR\" />
-    <file src="$BaseOutputPath$ru\**" target="analyzers\cs\ru\" />
-    <file src="$BaseOutputPath$tr\**" target="analyzers\cs\tr\" />
-    <file src="$BaseOutputPath$zh-Hans\**" target="analyzers\cs\zh-Hans\" />
-    <file src="$BaseOutputPath$zh-Hant\**" target="analyzers\cs\zh-Hant\" />
     <file src="..\..\tools\**" target="tools\" />
-    <file src="..\..\content\**" target="contentFiles\" />
   </files>
 </package>

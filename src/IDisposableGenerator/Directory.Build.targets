@@ -1,11 +1,19 @@
 <Project>
 
   <ItemGroup>
-    <Compile Remove="../../content/cs/**/*.cs" />
-    <Content Include="../../content/cs/**/*.cs" Pack="true" PackagePath="contentFiles" />
-    <Content Include="../../content/vb/**/*.vb" Pack="true" PackagePath="contentFiles" />
+    <EmbeddedResource Update="Properties\Resources.resx" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Tests</_Parameter1> <!-- We use the value of AssemblyName to declare the value of the attribute -->
+    </AssemblyAttribute>
+    <Using Include="System.ComponentModel" />
+    <Using Include="System.Resources" />
     <Using Include="System.Text" />
+    <!-- Globally used Roslyn namespaces. -->
     <Using Include="Microsoft.CodeAnalysis" />
+    <Using Include="Microsoft.CodeAnalysis.CSharp" />
     <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
   </ItemGroup>
 

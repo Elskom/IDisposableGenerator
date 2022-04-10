@@ -6,12 +6,6 @@ internal class WorkItem
     public List<ClassItems> Classes { get; } = new();
 
     public ClassItems? GetClassItems(INamedTypeSymbol testClass)
-    {
-        return this.Classes.FirstOrDefault(classItem => classItem.Name!.Equals(testClass.Name, StringComparison.Ordinal));
-    }
-
-    public bool ContainsClass(INamedTypeSymbol testClass)
-    {
-        return GetClassItems(testClass) is not null;
-    }
+        => this.Classes.FirstOrDefault(
+            classItem => classItem.NameEquals(testClass.Name));
 }

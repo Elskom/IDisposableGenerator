@@ -10,13 +10,19 @@ internal class ClassItems
     public List<string> SetNull { get ; } = new();
     public List<string> Methods { get; } = new();
 
-    public void AddSetNull(ISymbol member)
-        => this.SetNull.Add(member.Name);
+    public bool AddSetNull(ISymbol member)
+    {
+        this.SetNull.Add(member.Name);
+        return true;
+    }
 
-    public void AddMethod(ISymbol member)
-        => this.Methods.Add(member.Name);
+    public bool AddMethod(ISymbol member)
+    {
+        this.Methods.Add(member.Name);
+        return true;
+    }
 
-    public void AddField(TypedConstant arg, ISymbol member)
+    public bool AddField(TypedConstant arg, ISymbol member)
     {
         if ((bool)arg.Value!)
         {
@@ -26,5 +32,10 @@ internal class ClassItems
         {
             this.Fields.Add(member.Name);
         }
+
+        return true;
     }
+
+    public bool NameEquals(string name)
+        => this.Name!.Equals(name, StringComparison.Ordinal);
 }
