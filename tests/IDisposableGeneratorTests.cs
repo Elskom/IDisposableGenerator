@@ -319,12 +319,15 @@ namespace MyApp
             await RunTest<CSGeneratorTest>(string.Empty, string.Empty).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-    private static async Task RunTest<TestType>(string generatedSource, string testSource)
+    private static async Task RunTest<TestType>(
+        string generatedSource,
+        string testSource,
+        LanguageVersion languageVersion = LanguageVersion.CSharp9)
         where TestType : SourceGeneratorTest<XUnitVerifier>, IGeneratorTestBase, new()
     {
         var test = new TestType
         {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net50,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
             TestState =
             {
                 Sources =
@@ -334,9 +337,11 @@ namespace MyApp
             },
         };
 
-        if (!string.IsNullOrEmpty(testSource))
+        if (!string.IsNullOrEmpty(testSource) && test is CSGeneratorTest tst)
         {
-            // do not duplicate the code to Elskom.GitInformation here.
+            tst.LanguageVersion = languageVersion;
+            
+            // do not duplicate the code to the attributes here.
             test.TestState.Sources.Add(
                 await File.ReadAllTextAsync(
                     "../../../../content/cs/any/CallOnDisposeAttribute.cs").ConfigureAwait(false));
