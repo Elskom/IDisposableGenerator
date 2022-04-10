@@ -7,9 +7,13 @@ public class IDisposableGenerator : ISourceGenerator
     {
         // retrieve the populated receiver
         var receiver = (context.SyntaxContextReceiver as SyntaxReceiver)!;
+        var compilation = (context.Compilation as CSharpCompilation)!;
 
         // begin creating the source we'll inject into the users compilation
-        var sourceBuilder = DisposableCodeWriter.WriteDisposableCodeCSharp9(receiver.WorkItem);
+        var sourceBuilder = compilation.LanguageVersion is LanguageVersion.CSharp10
+            or LanguageVersion.Latest or LanguageVersion.Preview
+            ? DisposableCodeWriter.WriteDisposableCodeCSharp10(receiver.WorkItem)
+            : DisposableCodeWriter.WriteDisposableCodeCSharp9(receiver.WorkItem);
 
         // inject the created source into the users compilation
         sourceBuilder.ToString().ToSourceFile("Disposables.g.cs", ref context);
