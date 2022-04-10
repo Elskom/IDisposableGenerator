@@ -5,8 +5,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
     <IsPackable>true</IsPackable>
-    <Version>1.0.0</Version>
-    <PackageReleaseNotes>Initial Release.</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Changes in this release:
+- Source generate the attributes (Post Init step).
+- Ensure all generated code use file-scoped namespaces and global usings when used in a project with C# 10 or newer enabled.
+- Remove roslyn package dependencies from package as those should be resolved from the compiler's copies.
+- Moved the generator assembly files from analyzers\cs to analyzers\dotnet\cs.</PackageReleaseNotes>
     <Copyright>Copyright (c) 2021</Copyright>
     <!-- Special properties for analyzer packages. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
