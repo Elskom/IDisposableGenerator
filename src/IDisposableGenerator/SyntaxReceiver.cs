@@ -1,11 +1,5 @@
 namespace IDisposibleGenerator;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 /// <summary>
 /// This is used to process the syntax tree. The output is "work items", which are fed into the code generators.
 /// </summary>

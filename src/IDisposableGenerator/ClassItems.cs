@@ -1,8 +1,5 @@
 namespace IDisposibleGenerator;
 
-using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
-
 internal class ClassItems
 {
     public string? Name { get; set; }

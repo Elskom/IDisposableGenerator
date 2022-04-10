@@ -1,8 +1,5 @@
 namespace IDisposibleGenerator;
 
-using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
-
 internal static class SemanticHelper
 {
     public static string FullNamespace(this ISymbol symbol)

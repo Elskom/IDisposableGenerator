@@ -1,12 +1,5 @@
 namespace IDisposableGenerator.Tests;
 
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
-using Xunit;
-
 public class IDisposableGeneratorTests
 {
     [Fact]

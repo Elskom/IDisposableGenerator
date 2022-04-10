@@ -1,7 +1,5 @@
 namespace IDisposableGenerator.Tests;
 
-using System.Collections.Generic;
-
 public interface IGeneratorTestBase
 {
     /// <summary>
