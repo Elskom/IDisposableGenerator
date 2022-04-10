@@ -1,12 +1,5 @@
 namespace IDisposableGenerator.Tests;
 
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
-
 public class CSGeneratorTest : CSharpSourceGeneratorTest<IDisposibleGenerator.IDisposableGenerator, XUnitVerifier>, IGeneratorTestBase
 {
     public List<(string, string)> GlobalOptions { get; } = new();

@@ -1,0 +1,12 @@
+<Project>
+
+  <ItemGroup>
+    <Compile Remove="../../content/cs/**/*.cs" />
+    <Content Include="../../content/cs/**/*.cs" Pack="true" PackagePath="contentFiles" />
+    <Content Include="../../content/vb/**/*.vb" Pack="true" PackagePath="contentFiles" />
+    <Using Include="System.Text" />
+    <Using Include="Microsoft.CodeAnalysis" />
+    <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
+  </ItemGroup>
+
+</Project>
