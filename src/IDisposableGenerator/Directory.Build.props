@@ -23,6 +23,7 @@
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
 
   <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec">

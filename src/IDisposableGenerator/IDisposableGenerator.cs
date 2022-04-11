@@ -10,13 +10,14 @@ public class IDisposableGenerator : ISourceGenerator
         var compilation = (context.Compilation as CSharpCompilation)!;
 
         // begin creating the source we'll inject into the users compilation
-        var sourceBuilder = compilation.LanguageVersion is LanguageVersion.CSharp10
+        _ = compilation.LanguageVersion is LanguageVersion.CSharp10
             or LanguageVersion.Latest or LanguageVersion.Preview
-            ? DisposableCodeWriter.WriteDisposableCodeCSharp10(receiver.WorkItem)
-            : DisposableCodeWriter.WriteDisposableCodeCSharp9(receiver.WorkItem);
-
-        // inject the created source into the users compilation
-        sourceBuilder.ToString().ToSourceFile("Disposables.g.cs", ref context);
+            ? DisposableCodeWriter.WriteDisposableCodeCSharp10(
+                receiver.WorkItemCollection,
+                ref context)
+            : DisposableCodeWriter.WriteDisposableCodeCSharp9(
+                receiver.WorkItemCollection,
+                ref context);
     }
 
     // on MacOS add "SpinWait.SpinUntil(() => Debugger.IsAttached);" to debug in rider.
