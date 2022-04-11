@@ -38,7 +38,7 @@ public partial class TestDisposable
     [DisposeField(false)]
     private IDisposable testDispose;
 
-    [SetNullOnDispose]
+    [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 }
 ", LanguageVersion.CSharp10).ConfigureAwait(false);
@@ -79,7 +79,7 @@ internal partial class TestDisposable
     [DisposeField(false)]
     private IDisposable testDispose;
 
-    [SetNullOnDispose]
+    [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 }
 ", LanguageVersion.CSharp10).ConfigureAwait(false);
@@ -125,7 +125,7 @@ internal partial class TestDisposable
     [DisposeField(true)]
     private IDisposable testDispose;
 
-    [SetNullOnDispose]
+    [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 }
 ", LanguageVersion.CSharp10).ConfigureAwait(false);
@@ -166,7 +166,7 @@ internal partial class TestDisposable : Stream
     [DisposeField(false)]
     private IDisposable testDispose;
 
-    [SetNullOnDispose]
+    [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 
     public override bool CanRead { get => throw new NotSupportedException(); }
@@ -223,7 +223,7 @@ internal partial class TestDisposable : Stream
     [DisposeField(true)]
     private IDisposable testDispose;
 
-    [SetNullOnDispose]
+    [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 
     public override bool CanRead { get => throw new NotSupportedException(); }
@@ -276,7 +276,7 @@ internal partial class TestDisposable
     [DisposeField(false)]
     private IDisposable testDispose;
 
-    [SetNullOnDispose]
+    [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 
     [CallOnDispose]
@@ -320,7 +320,7 @@ namespace MyApp;
 [GenerateDispose(false)]
 internal partial class TestDisposable
 {
-    [SetNullOnDispose]
+    [NullOnDispose]
     [StringLength(50)]
     public string? test { get; set; } = ""stuff here."";
 }

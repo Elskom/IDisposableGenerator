@@ -68,7 +68,7 @@ internal class WorkItemCollection
             _ = attr!.AttributeClass!.Name switch
             {
                 "DisposeFieldAttribute" => classItem.AddField(attr.ConstructorArguments[0], member),
-                "SetNullOnDisposeAttribute" => classItem.AddSetNull(member),
+                "NullOnDisposeAttribute" => classItem.AddSetNull(member),
                 "CallOnDisposeAttribute" => classItem.AddMethod(member),
 
                 // cannot throw here because the attribute in this case should be ignored.
