@@ -2,7 +2,7 @@ namespace IDisposableGenerator;
 
 internal class WorkItem
 {
-    public string? Namespace { get; set; }
+    public string Namespace { get; set; } = null!;
     public List<ClassItems> Classes { get; } = new();
 
     public ClassItems? GetClassItems(INamedTypeSymbol testClass)
