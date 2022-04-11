@@ -11,7 +11,8 @@
 - Moved the generator assembly files from analyzers\cs to analyzers\dotnet\cs.
 - Allow multiple WorkItems in the generator.
 - Renamed SetNullOnDisposeAttribute to NullOnDisposeAttribute.
-- Added Visual Basic source generator.</PackageReleaseNotes>
+- Added Visual Basic source generator.
+- Migrated to an Incremental Source Generator (Source Generator V2 APIs).</PackageReleaseNotes>
     <Copyright>Copyright (c) 2021~2022</Copyright>
     <!-- Special properties for analyzer packages. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>

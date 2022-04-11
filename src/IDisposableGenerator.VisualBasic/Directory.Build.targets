@@ -3,7 +3,6 @@
   <ItemGroup>
     <!-- Globally used Roslyn namespaces. -->
     <Using Include="Microsoft.CodeAnalysis" />
-    <Using Include="Microsoft.CodeAnalysis.VisualBasic" />
     <Using Include="Microsoft.CodeAnalysis.VisualBasic.Syntax" />
   </ItemGroup>
 

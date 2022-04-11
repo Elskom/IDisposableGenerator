@@ -16,7 +16,7 @@ internal class WorkItem
         foreach (var classItems in this.Classes)
         {
             sb.AppendLine();
-            sb.Append(classItems);
+            sb.Append($"Class Item {this.Classes.IndexOf(classItems)}: {classItems}");
         }
 
         return sb.ToString();

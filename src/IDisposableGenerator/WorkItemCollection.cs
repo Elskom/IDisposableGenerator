@@ -2,7 +2,13 @@ namespace IDisposableGenerator;
 
 internal class WorkItemCollection
 {
+    internal Compilation Compilation { get; }
     private List<WorkItem> WorkItems { get; } = new();
+
+    public WorkItemCollection(Compilation compilation)
+        => this.Compilation = compilation;
+
+    public int Count => this.WorkItems.Count;
 
     public void Process(INamedTypeSymbol testClass, CancellationToken ct)
     {
@@ -42,6 +48,9 @@ internal class WorkItemCollection
 
     public List<WorkItem> GetWorkItems()
         => this.WorkItems;
+
+    public int IndexOf(WorkItem item)
+        => this.WorkItems.IndexOf(item);
 
     private static ClassItems GetClassItem(AttributeData attr, INamedTypeSymbol testClass)
     {

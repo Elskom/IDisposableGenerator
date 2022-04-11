@@ -1,6 +1,6 @@
 namespace IDisposableGenerator.Tests;
 
-public class CSGeneratorTest : CSharpSourceGeneratorTest<IDisposableGenerator, XUnitVerifier>, IGeneratorTestBase
+public class CSGeneratorTest : CSharpIncrementalGeneratorTest<IDisposableGenerator, XUnitVerifier>, IGeneratorTestBase
 {
     public List<(string, string)> GlobalOptions { get; } = new();
 
