@@ -41,7 +41,7 @@ namespace MyApp
         [DisposeField(false)]
         private IDisposable testDispose;
 
-        [SetNullOnDispose]
+        [NullOnDispose]
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
     }
 }
@@ -86,7 +86,7 @@ namespace MyApp
         [DisposeField(false)]
         private IDisposable testDispose;
 
-        [SetNullOnDispose]
+        [NullOnDispose]
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
     }
 }
@@ -136,7 +136,7 @@ namespace MyApp
         [DisposeField(true)]
         private IDisposable testDispose;
 
-        [SetNullOnDispose]
+        [NullOnDispose]
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
     }
 }
@@ -181,7 +181,7 @@ namespace MyApp
         [DisposeField(false)]
         private IDisposable testDispose;
 
-        [SetNullOnDispose]
+        [NullOnDispose]
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 
         public override bool CanRead { get => throw new NotSupportedException(); }
@@ -242,7 +242,7 @@ namespace MyApp
         [DisposeField(true)]
         private IDisposable testDispose;
 
-        [SetNullOnDispose]
+        [NullOnDispose]
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 
         public override bool CanRead { get => throw new NotSupportedException(); }
@@ -299,7 +299,7 @@ namespace MyApp
         [DisposeField(false)]
         private IDisposable testDispose;
 
-        [SetNullOnDispose]
+        [NullOnDispose]
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 
         [CallOnDispose]
@@ -347,7 +347,7 @@ namespace MyApp
     [GenerateDispose(false)]
     internal partial class TestDisposable
     {
-        [SetNullOnDispose]
+        [NullOnDispose]
         [StringLength(50)]
         public string? test { get; set; } = ""stuff here."";
     }

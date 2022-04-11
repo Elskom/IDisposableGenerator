@@ -54,9 +54,9 @@ namespace IDisposableGenerator
 
     // used only by a source generator to generate Dispose() and Dispose(bool).
     [AttributeUsage(AttributeTargets.Event | AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    internal class SetNullOnDisposeAttribute : Attribute
+    internal class NullOnDisposeAttribute : Attribute
     {
-        public SetNullOnDisposeAttribute()
+        public NullOnDisposeAttribute()
         {
         }
     }
