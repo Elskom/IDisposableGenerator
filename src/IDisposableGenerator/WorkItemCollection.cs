@@ -91,7 +91,7 @@ internal class WorkItemCollection
         });
     }
 
-    internal WorkItem? FindWithNamespace(string nameSpace)
+    private WorkItem? FindWithNamespace(string nameSpace)
         => this.WorkItems.FirstOrDefault(
             workItem => workItem.Namespace.Equals(
                 nameSpace,
