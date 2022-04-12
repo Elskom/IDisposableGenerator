@@ -30,7 +30,7 @@ public partial class IDisposableGeneratorTests
         if (!string.IsNullOrEmpty(testSource) && test is CSGeneratorTest tst)
         {
             tst.LanguageVersion = languageVersion;
-            var generatedAttributeSource = Properties.Resources.AttributeCodeCSharp9!;
+            var generatedAttributeSource = Properties.Resources.AttributeCodeCSharp!;
             test.TestState.GeneratedSources.Add(
                 (typeof(IDisposableGenerator), "GeneratedAttributes.g.cs", generatedAttributeSource));
             test.TestState.GeneratedSources.Add(

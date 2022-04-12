@@ -19,13 +19,17 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <NoWarn>$(NoWarn);NU5128;NU5127</NoWarn>
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);PackBuildOutputs</TargetsForTfmSpecificContentInPackage>
-    <NuSpecFile>IDisposableGenerator.nuspec</NuSpecFile>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <ImplicitUsings>enable</ImplicitUsings>
     <DevelopmentDependency>true</DevelopmentDependency>
+    <Authors>Els_kom org.</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Elskom/IDisposableGenerator</PackageProjectUrl>
+    <Description>Source Generator Generating the Dispose functions in Disposables.</Description>
+    <PackageOutputPath>../../artifacts/</PackageOutputPath>
   </PropertyGroup>
 
   <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec">
@@ -37,9 +41,9 @@
   <Target Name="PackBuildOutputs" DependsOnTargets="ResolveProjectReferences;SatelliteDllsProjectOutputGroup;SatelliteDllsProjectOutputGroupDependencies">
     <ItemGroup>
       <!-- Analysis of C# projects -->
-      <TfmSpecificPackageFile Include="$(TargetPath)" PackagePath="analyzers\dotnet\cs\" />
-      <TfmSpecificPackageFile Include="@(SatelliteDllsProjectOutputGroupOutput->'%(FinalOutputPath)')" PackagePath="analyzers\dotnet\cs\%(SatelliteDllsProjectOutputGroupOutput.Culture)\" />
-      <TfmSpecificPackageFile Include="%(_ResolvedProjectReferencePaths.Identity)" PackagePath="analyzers\dotnet\cs\" />
+      <TfmSpecificPackageFile Include="$(TargetPath)" PackagePath="analyzers\dotnet\cs" />
+      <TfmSpecificPackageFile Include="@(SatelliteDllsProjectOutputGroupOutput->'%(FinalOutputPath)')" PackagePath="analyzers\dotnet\cs\%(SatelliteDllsProjectOutputGroupOutput.Culture)" />
+      <TfmSpecificPackageFile Include="%(_ResolvedProjectReferencePaths.Identity)" PackagePath="analyzers\dotnet\cs" />
     </ItemGroup>
   </Target>
 

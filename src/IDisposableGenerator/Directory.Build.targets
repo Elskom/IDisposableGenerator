@@ -8,7 +8,9 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>$(AssemblyName).Tests</_Parameter1> <!-- We use the value of AssemblyName to declare the value of the attribute -->
     </AssemblyAttribute>
+    <None Include="../../tools/*.*" Visible="false" Pack="true" PackagePath="tools" />
     <Using Include="System.ComponentModel" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Resources" />
     <Using Include="System.Text" />
     <!-- Globally used Roslyn namespaces. -->

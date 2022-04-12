@@ -27,7 +27,7 @@ public class IDisposableGenerator : ISourceGenerator
         context.RegisterForPostInitialization(ctx =>
         {
             // Always generate the attributes.
-            var attributeSource = Properties.Resources.AttributeCodeCSharp9!;
+            var attributeSource = Properties.Resources.AttributeCodeCSharp!;
             attributeSource.ToSourceFile("GeneratedAttributes.g.cs", ref ctx);
         });
     }

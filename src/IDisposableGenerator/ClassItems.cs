@@ -38,4 +38,17 @@ internal class ClassItems
 
     public bool NameEquals(string name)
         => this.Name!.Equals(name, StringComparison.Ordinal);
+
+    [ExcludeFromCodeCoverage]
+    public override string ToString()
+    {
+        return $@"Class: Name {(
+            this.Name)}, Accessibility: {(
+            this.Accessibility)}, Stream: {(
+            this.Stream)}, Owns Count: {(
+            this.Owns.Count)}, Fields Count: {(
+            this.Fields.Count)}, SetNull Count: {(
+            this.SetNull.Count)}, Methods Count: {(
+            this.Methods.Count)}";
+    }
 }

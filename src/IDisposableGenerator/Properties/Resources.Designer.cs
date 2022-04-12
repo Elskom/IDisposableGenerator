@@ -2,8 +2,8 @@
 
 internal class Resources
 {
-    internal static string AttributeCodeCSharp9 => ResourceManager.GetString(
-        "AttributeCodeCSharp9");
+    internal static string AttributeCodeCSharp => ResourceManager.GetString(
+        "AttributeCodeCSharp");
     
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     private static ResourceManager ResourceManager { get; } = new ResourceManager(

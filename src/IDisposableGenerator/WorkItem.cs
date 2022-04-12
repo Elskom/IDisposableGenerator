@@ -8,4 +8,17 @@ internal class WorkItem
     public ClassItems? GetClassItems(INamedTypeSymbol testClass)
         => this.Classes.FirstOrDefault(
             classItem => classItem.NameEquals(testClass.Name));
+
+    [ExcludeFromCodeCoverage]
+    public override string ToString()
+    {
+        var sb = new StringBuilder($"Namespace: Name: {this.Namespace}");
+        foreach (var classItems in this.Classes)
+        {
+            sb.AppendLine();
+            sb.Append(classItems);
+        }
+
+        return sb.ToString();
+    }
 }
