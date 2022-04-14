@@ -2,8 +2,7 @@ namespace IDisposableGenerator;
 
 internal static class DisposableCodeWriter
 {
-#region CSharp10
-    public static bool WriteDisposableCodeCSharp10(
+    public static void WriteDisposableCodeCSharp10(
         WorkItemCollection workItemCollection,
         ref GeneratorExecutionContext context
         )
@@ -114,12 +113,9 @@ namespace {workItem.Namespace};
                     ? $"{workItemCollection.GetWorkItems().IndexOf(workItem)}" :
                     string.Empty)}.g.cs", ref context);
         }
-
-        return true;
     }
-#endregion
-#region CSharp9
-    public static bool WriteDisposableCodeCSharp9(
+
+    public static void WriteDisposableCodeCSharp9(
         WorkItemCollection workItemCollection,
         ref GeneratorExecutionContext context
         )
@@ -232,7 +228,5 @@ namespace {workItem.Namespace}
 
         // inject the created source into the users compilation.
         sourceBuilder.ToString().ToSourceFile("Disposables.g.cs", ref context);
-        return true;
     }
-#endregion
 }

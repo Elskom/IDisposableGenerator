@@ -3,6 +3,10 @@
 [Generator]
 public class IDisposableGenerator : ISourceGenerator
 {
+    private delegate void WriteDisposableCode(
+        WorkItemCollection workItemCollection,
+        ref GeneratorExecutionContext context);
+
     public void Execute(GeneratorExecutionContext context)
     {
         // retrieve the populated receiver
@@ -10,14 +14,10 @@ public class IDisposableGenerator : ISourceGenerator
         var compilation = (context.Compilation as CSharpCompilation)!;
 
         // begin creating the source we'll inject into the users compilation
-        _ = compilation.LanguageVersion is LanguageVersion.CSharp10
-            or LanguageVersion.Latest or LanguageVersion.Preview
-            ? DisposableCodeWriter.WriteDisposableCodeCSharp10(
-                receiver.WorkItemCollection,
-                ref context)
-            : DisposableCodeWriter.WriteDisposableCodeCSharp9(
-                receiver.WorkItemCollection,
-                ref context);
+        WriteDisposableCode writeDisposableCode = compilation.LanguageVersion > LanguageVersion.CSharp9
+            ? DisposableCodeWriter.WriteDisposableCodeCSharp10
+            : DisposableCodeWriter.WriteDisposableCodeCSharp9;
+        writeDisposableCode(receiver.WorkItemCollection, ref context);
     }
 
     // on MacOS add "SpinWait.SpinUntil(() => Debugger.IsAttached);" to debug in rider.
