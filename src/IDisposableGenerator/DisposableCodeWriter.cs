@@ -227,7 +227,7 @@ namespace {workItem.Namespace};
             // inject the created sources into the users compilation.
             sourceBuilder.ToString().ToSourceFile($@"Disposables{(
                 workItemCollection.GetWorkItems().Count > 1
-                    ? $"{workItemCollection.GetWorkItems().IndexOf(workItem)}" :
+                    ? $".{workItemCollection.GetWorkItems().IndexOf(workItem)}" :
                     string.Empty)}.g.cs", ref context);
         }
     }

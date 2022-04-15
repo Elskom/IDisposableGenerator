@@ -12,7 +12,9 @@ public partial class IDisposableGeneratorTests
     private static async Task RunTest<TestType>(
         string generatedSource,
         string testSource,
-        LanguageVersion? languageVersion = LanguageVersion.CSharp9)
+        LanguageVersion? languageVersion = LanguageVersion.CSharp9,
+        List<string>? testSources = null,
+        Dictionary<string, string>? generatedSources = null)
         where TestType : SourceGeneratorTest<XUnitVerifier>, IGeneratorTestBase, new()
     {
         var test = new TestType
@@ -35,8 +37,26 @@ public partial class IDisposableGeneratorTests
                 var generatedAttributeSource = Properties.Resources.AttributeCodeCSharp!;
                 test.TestState.GeneratedSources.Add(
                     (typeof(IDisposableGenerator), "GeneratedAttributes.g.cs", generatedAttributeSource));
-                test.TestState.GeneratedSources.Add(
-                    (typeof(IDisposableGenerator), "Disposables.g.cs", generatedSource));
+                if (generatedSources is not null
+                    && languageVersion == LanguageVersion.CSharp10)
+                {
+                    foreach (var source in testSources!)
+                    {
+                        test.TestState.Sources.Add(source);
+                    }
+
+                    foreach (var (key, value) in generatedSources)
+                    {
+                        test.TestState.GeneratedSources.Add(
+                            (typeof(IDisposableGenerator), key, value));
+                    }
+                }
+                else
+                {
+                    test.TestState.GeneratedSources.Add(
+                        (typeof(IDisposableGenerator), "Disposables.g.cs", generatedSource));
+                }
+
                 break;
             }
             case false when test is VBGeneratorTest:
