@@ -22,8 +22,11 @@
     <Authors>Els_kom org.</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Elskom/IDisposableGenerator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Elskom/IDisposableGenerator/</RepositoryUrl>
     <Description>Source Generator Generating the Dispose functions in Disposables.</Description>
     <PackageOutputPath>../../artifacts/</PackageOutputPath>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec">
