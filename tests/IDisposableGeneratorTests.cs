@@ -12,7 +12,7 @@ public partial class IDisposableGeneratorTests
     private static async Task RunTest<TestType>(
         string generatedSource,
         string testSource,
-        LanguageVersion languageVersion = LanguageVersion.CSharp9)
+        LanguageVersion? languageVersion = LanguageVersion.CSharp9)
         where TestType : SourceGeneratorTest<XUnitVerifier>, IGeneratorTestBase, new()
     {
         var test = new TestType
@@ -27,18 +27,30 @@ public partial class IDisposableGeneratorTests
             },
         };
 
-        if (!string.IsNullOrEmpty(testSource) && test is CSGeneratorTest tst)
+        switch (string.IsNullOrEmpty(testSource))
         {
-            tst.LanguageVersion = languageVersion;
-            var generatedAttributeSource = Properties.Resources.AttributeCodeCSharp!;
-            test.TestState.GeneratedSources.Add(
-                (typeof(IDisposableGenerator), "GeneratedAttributes.g.cs", generatedAttributeSource));
-            test.TestState.GeneratedSources.Add(
-                (typeof(IDisposableGenerator), "Disposables.g.cs", generatedSource));
-        }
-        else
-        {
-            test.TestState.Sources.Clear();
+            case false when test is CSGeneratorTest tst:
+            {
+                tst.LanguageVersion = languageVersion!.Value;
+                var generatedAttributeSource = Properties.Resources.AttributeCodeCSharp!;
+                test.TestState.GeneratedSources.Add(
+                    (typeof(IDisposableGenerator), "GeneratedAttributes.g.cs", generatedAttributeSource));
+                test.TestState.GeneratedSources.Add(
+                    (typeof(IDisposableGenerator), "Disposables.g.cs", generatedSource));
+                break;
+            }
+            case false when test is VBGeneratorTest:
+            {
+                var generatedAttributeSource = Properties.Resources.AttributeCodeVisualBasic!;
+                test.TestState.GeneratedSources.Add(
+                    (typeof(IDisposableGeneratorVB), "GeneratedAttributes.g.vb", generatedAttributeSource));
+                test.TestState.GeneratedSources.Add(
+                    (typeof(IDisposableGeneratorVB), "Disposables.g.vb", generatedSource));
+                break;
+            }
+            default:
+                test.TestState.Sources.Clear();
+                break;
         }
 
         await test.RunAsync();

@@ -1,0 +1,10 @@
+<Project>
+
+  <ItemGroup>
+    <ProjectReference Include="../IDisposableGenerator/IDisposableGenerator.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.0.1">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

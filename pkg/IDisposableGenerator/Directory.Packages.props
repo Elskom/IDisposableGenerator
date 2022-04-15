@@ -1,0 +1,8 @@
+<Project>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/IDisposableGenerator.CSharp/IDisposableGenerator.CSharp.csproj" />
+    <ProjectReference Include="../../src/IDisposableGenerator.VisualBasic/IDisposableGenerator.VisualBasic.csproj" />
+  </ItemGroup>
+
+</Project>

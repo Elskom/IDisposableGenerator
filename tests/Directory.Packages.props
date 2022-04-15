@@ -4,6 +4,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*-*" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.XUnit" Version="*-*" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.SourceGenerators.Testing.XUnit" Version="*-*" />
     <PackageReference Include="xunit" Version="*-*" />
     <PackageReference Include="xunit.runner.visualstudio" Version="*-*">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,7 +18,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <ProjectReference Include="../src/IDisposableGenerator/IDisposableGenerator.csproj" />
+    <ProjectReference Include="../src/IDisposableGenerator.CSharp/IDisposableGenerator.CSharp.csproj" />
+    <ProjectReference Include="../src/IDisposableGenerator.VisualBasic/IDisposableGenerator.VisualBasic.csproj" />
   </ItemGroup>
 
 </Project>

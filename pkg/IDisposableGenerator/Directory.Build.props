@@ -1,0 +1,35 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Changes in this release:
+- Source generate the attributes (Post Init step).
+- Ensure all generated code use file-scoped namespaces and global usings when used in a project with C# 10 or newer enabled.
+- Remove roslyn package dependencies from package as those should be resolved from the compiler's copies.
+- Moved the generator assembly files from analyzers\cs to analyzers\dotnet\cs.
+- Allow multiple WorkItems in the generator.
+- Renamed SetNullOnDisposeAttribute to NullOnDisposeAttribute.
+- Added Visual Basic source generator.</PackageReleaseNotes>
+    <Copyright>Copyright (c) 2021~2022</Copyright>
+    <!-- Special properties for analyzer packages. -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <NoWarn>$(NoWarn);NU5128;NU5127</NoWarn>
+    <!-- <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);PackBuildOutputs</TargetsForTfmSpecificContentInPackage> -->
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <Authors>Els_kom org.</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Elskom/IDisposableGenerator</PackageProjectUrl>
+    <Description>Source Generator Generating the Dispose functions in Disposables.</Description>
+    <PackageOutputPath>../../artifacts/</PackageOutputPath>
+  </PropertyGroup>
+
+  <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <NuspecProperties>$(NuspecProperties);Version=$(Version);BaseOutputPath=$(OutputPath);PackageReleaseNotes=$(PackageReleaseNotes);</NuspecProperties>
+    </PropertyGroup>
+  </Target>
+
+</Project>

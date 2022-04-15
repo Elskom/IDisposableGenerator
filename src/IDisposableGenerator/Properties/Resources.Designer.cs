@@ -3,8 +3,11 @@
 internal class Resources
 {
     internal static string AttributeCodeCSharp => ResourceManager.GetString(
-        "AttributeCodeCSharp");
-    
+        nameof(AttributeCodeCSharp));
+
+    internal static string AttributeCodeVisualBasic => ResourceManager.GetString(
+        nameof(AttributeCodeVisualBasic));
+
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     private static ResourceManager ResourceManager { get; } = new ResourceManager(
         "IDisposableGenerator.Properties.Resources",
