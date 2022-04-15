@@ -1,0 +1,27 @@
+<Project>
+
+  <ItemGroup>
+    <None Include="../../tools/*.*" Visible="false" Pack="true" PackagePath="tools" />
+    <None
+          Include="../../src/IDisposableGenerator.CSharp/bin/$(Configuration)/$(TargetFramework)/IDisposableGenerator.dll"
+          Visible="false"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs" />
+    <None
+          Include="../../src/IDisposableGenerator.CSharp/bin/$(Configuration)/$(TargetFramework)/IDisposableGenerator.CSharp.dll"
+          Visible="false"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs" />
+    <None
+          Include="../../src/IDisposableGenerator.VisualBasic/bin/$(Configuration)/$(TargetFramework)/IDisposableGenerator.dll"
+          Visible="false"
+          Pack="true"
+          PackagePath="analyzers/dotnet/vb" />
+    <None
+          Include="../../src/IDisposableGenerator.VisualBasic/bin/$(Configuration)/$(TargetFramework)/IDisposableGenerator.VisualBasic.dll"
+          Visible="false"
+          Pack="true"
+          PackagePath="analyzers/dotnet/vb" />
+  </ItemGroup>
+
+</Project>
