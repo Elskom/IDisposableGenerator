@@ -25,14 +25,12 @@ internal static class SemanticHelper
     public static void ToSourceFile(
         this string source,
         string sourceName,
-        ref GeneratorExecutionContext context
-        )
+        ref SourceProductionContext context)
         => context.AddSource(sourceName, source);
 
     public static void ToSourceFile(
         this string source,
         string sourceName,
-        ref GeneratorPostInitializationContext context
-        )
+        ref IncrementalGeneratorPostInitializationContext context)
         => context.AddSource(sourceName, source);
 }
