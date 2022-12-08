@@ -60,7 +60,7 @@ Namespace {workItem.Namespace}
 
                 if (classItem.Owns.Any())
                 {
-                    _ = sourceBuilder.Append($@"                If Me.{(classItem.Stream ? "KeepOpen" : "IsOwned")} Then
+                    _ = sourceBuilder.Append($@"                If {(classItem.Stream ? "Not Me.KeepOpen" : "Me.IsOwned")} Then
 ");
                     foreach (var ownedItem in classItem.Owns)
                     {
@@ -171,7 +171,7 @@ namespace {workItem.Namespace};
 
                 if (classItem.Owns.Any())
                 {
-                    _ = sourceBuilder.Append($@"            if (this.{(classItem.Stream ? "KeepOpen" : "IsOwned")})
+                    _ = sourceBuilder.Append($@"            if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
             {{
 ");
                     foreach (var ownedItem in classItem.Owns)
@@ -285,7 +285,7 @@ namespace {workItem.Namespace}
 
                 if (classItem.Owns.Any())
                 {
-                    _ = sourceBuilder.Append($@"                if (this.{(classItem.Stream ? "KeepOpen" : "IsOwned")})
+                    _ = sourceBuilder.Append($@"                if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
                 {{
 ");
                     foreach (var ownedItem in classItem.Owns)

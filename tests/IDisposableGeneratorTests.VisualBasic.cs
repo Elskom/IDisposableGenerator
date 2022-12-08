@@ -243,7 +243,7 @@ Namespace MyApp
         ''' <inheritdoc/>
         Protected Overrides Sub Dispose(ByVal disposing As Boolean)
             If Not Me.isDisposed AndAlso disposing Then
-                If Me.KeepOpen Then
+                If Not Me.KeepOpen Then
                     Me.testDispose?.Dispose()
                     Me.testDispose = Nothing
                 End If
