@@ -198,7 +198,7 @@ internal partial class TestDisposable
     {
         if (!this.isDisposed && disposing)
         {
-            if (this.KeepOpen)
+            if (!this.KeepOpen)
             {
                 this.testDispose?.Dispose();
                 this.testDispose = null;
