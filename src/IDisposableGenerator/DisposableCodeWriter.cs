@@ -24,16 +24,12 @@ Namespace {workItem.Namespace}
         Private isDisposed As Boolean
 ");
 
-                if (classItem.Owns.Count is not 0 && !classItem.Stream)
+                if (classItem.Owns.Count is not 0)
                 {
-                    _ = sourceBuilder.Append(@"
-        Friend Property IsOwned As Boolean
-");
-                }
-                else if (classItem.Owns.Count is not 0 && classItem.Stream)
-                {
-                    _ = sourceBuilder.Append(@"
+                    _ = sourceBuilder.Append(classItem.Stream ? @"
         Friend ReadOnly Property KeepOpen As Boolean
+" : @"
+        Friend Property IsOwned As Boolean
 ");
                 }
 
@@ -135,16 +131,12 @@ namespace {workItem.Namespace};
 {{
     private bool isDisposed;
 ");
-                if (classItem.Owns.Count is not 0 && !classItem.Stream)
+                if (classItem.Owns.Count is not 0)
                 {
-                    _ = sourceBuilder.Append(@"
-    internal bool IsOwned { get; set; }
-");
-                }
-                else if (classItem.Owns.Count is not 0 && classItem.Stream)
-                {
-                    _ = sourceBuilder.Append(@"
+                    _ = sourceBuilder.Append(classItem.Stream ? @"
     internal bool KeepOpen { get; }
+" : @"
+    internal bool IsOwned { get; set; }
 ");
                 }
 
@@ -249,16 +241,12 @@ namespace {workItem.Namespace}
     {{
         private bool isDisposed;
 ");
-                if (classItem.Owns.Count is not 0 && !classItem.Stream)
+                if (classItem.Owns.Count is not 0)
                 {
-                    _ = sourceBuilder.Append(@"
-        internal bool IsOwned { get; set; }
-");
-                }
-                else if (classItem.Owns.Count is not 0 && classItem.Stream)
-                {
-                    _ = sourceBuilder.Append(@"
+                    _ = sourceBuilder.Append(classItem.Stream ? @"
         internal bool KeepOpen { get; }
+" : @"
+        internal bool IsOwned { get; set; }
 ");
                 }
 
