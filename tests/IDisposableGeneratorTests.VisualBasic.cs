@@ -45,7 +45,7 @@ Namespace MyApp
         Private testsetnull As Char() = { ""t""c, ""e""c, ""s""c, ""t""c, ""i""c, ""n""c, ""g""c }
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 
     [Fact]
     public async Task TestGeneratingDisposableNotOwnsVisualBasic()
@@ -90,7 +90,7 @@ Namespace MyApp
         Private testsetnull As Char() = { ""t""c, ""e""c, ""s""c, ""t""c, ""i""c, ""n""c, ""g""c }
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 
     [Fact]
     public async Task TestGeneratingDisposableOwnsVisualBasic()
@@ -139,7 +139,7 @@ Namespace MyApp
         Private testsetnull As Char() = { ""t""c, ""e""c, ""s""c, ""t""c, ""i""c, ""n""c, ""g""c }
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 
     [Fact]
     public async Task TestGeneratingStreamNotOwnsVisualBasic()
@@ -226,7 +226,7 @@ Namespace MyApp
         End Sub
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 
     [Fact]
     public async Task TestGeneratingStreamOwnsVisualBasic()
@@ -317,7 +317,7 @@ Namespace MyApp
         End Sub
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 
     [Fact]
     public async Task TestGeneratingCallOnDisposeVisualBasic()
@@ -368,7 +368,7 @@ Namespace MyApp
         End Sub
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 
     [Fact]
     public async Task TestAttributeOnDisposableMemberFromBCLVisualBasic()
@@ -410,5 +410,5 @@ Namespace MyApp
         Public Property test As String = ""stuff here.""
     End Class
 End Namespace
-", null).ConfigureAwait(false);
+", null);
 }

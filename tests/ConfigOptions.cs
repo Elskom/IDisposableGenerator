@@ -3,17 +3,11 @@ namespace IDisposableGenerator.Tests;
 /// <summary>
 /// Allows adding additional global options
 /// </summary>
-internal class ConfigOptions : AnalyzerConfigOptions
+[method: ExcludeFromCodeCoverage]
+internal class ConfigOptions(AnalyzerConfigOptions workspaceOptions, List<(string, string)> globalOptions) : AnalyzerConfigOptions
 {
-    private readonly AnalyzerConfigOptions _workspaceOptions;
-    private readonly Dictionary<string, string> _globalOptions;
-
-    [ExcludeFromCodeCoverage]
-    public ConfigOptions(AnalyzerConfigOptions workspaceOptions, List<(string, string)> globalOptions)
-    {
-        this._workspaceOptions = workspaceOptions;
-        this._globalOptions = globalOptions.ToDictionary( t => t.Item1, t => t.Item2);
-    }
+    private readonly AnalyzerConfigOptions _workspaceOptions = workspaceOptions;
+    private readonly Dictionary<string, string> _globalOptions = globalOptions.ToDictionary(t => t.Item1, t => t.Item2);
 
     [ExcludeFromCodeCoverage]
     public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)

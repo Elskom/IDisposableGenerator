@@ -45,7 +45,7 @@ namespace MyApp
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
     }
 }
-").ConfigureAwait(false);
+");
 
     [Fact]
     public async Task TestGeneratingDisposableNotOwnsCSharp9()
@@ -90,7 +90,7 @@ namespace MyApp
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
     }
 }
-").ConfigureAwait(false);
+");
 
     [Fact]
     public async Task TestGeneratingDisposableOwnsCSharp9()
@@ -140,7 +140,7 @@ namespace MyApp
         char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
     }
 }
-").ConfigureAwait(false);
+");
 
     [Fact]
     public async Task TestGeneratingStreamNotOwnsCSharp9()
@@ -196,7 +196,7 @@ namespace MyApp
         public override void Write(byte[] _, int _1, int _2) => throw new NotSupportedException();
     }
 }
-").ConfigureAwait(false);
+");
 
     [Fact]
     public async Task TestGeneratingStreamOwnsCSharp9()
@@ -257,7 +257,7 @@ namespace MyApp
         public override void Write(byte[] _, int _1, int _2) => throw new NotSupportedException();
     }
 }
-").ConfigureAwait(false);
+");
 
     [Fact]
     public async Task TestGeneratingCallOnDisposeCSharp9()
@@ -310,7 +310,7 @@ namespace MyApp
         }
     }
 }
-").ConfigureAwait(false);
+");
 
     [Fact]
     public async Task TestAttributeOnDisposableMemberFromBCLCSharp9()
@@ -352,5 +352,5 @@ namespace MyApp
         public string? test { get; set; } = ""stuff here."";
     }
 }
-").ConfigureAwait(false);
+");
 }

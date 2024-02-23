@@ -6,7 +6,7 @@
     <Version>1.1.1</Version>
     <PackageReleaseNotes>Changes in this release:
 - Fixed bug in the KeepOpen dispose check in generated code.</PackageReleaseNotes>
-    <Copyright>Copyright (c) 2021~2022</Copyright>
+    <Copyright>Copyright (c) 2021~2024</Copyright>
     <!-- Special properties for analyzer packages. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
