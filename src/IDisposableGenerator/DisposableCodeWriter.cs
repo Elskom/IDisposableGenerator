@@ -24,13 +24,13 @@ Namespace {workItem.Namespace}
         Private isDisposed As Boolean
 ");
 
-                if (classItem.Owns.Any() && !classItem.Stream)
+                if (classItem.Owns.Count is not 0 && !classItem.Stream)
                 {
                     _ = sourceBuilder.Append(@"
         Friend Property IsOwned As Boolean
 ");
                 }
-                else if (classItem.Owns.Any() && classItem.Stream)
+                else if (classItem.Owns.Count is not 0 && classItem.Stream)
                 {
                     _ = sourceBuilder.Append(@"
         Friend ReadOnly Property KeepOpen As Boolean
@@ -49,7 +49,7 @@ Namespace {workItem.Namespace}
         Protected Overrides")} Sub Dispose(ByVal disposing As Boolean)
             If Not Me.isDisposed AndAlso disposing Then
 ");
-                if (classItem.Methods.Any())
+                if (classItem.Methods.Count is not 0)
                 {
                     foreach (var methodItem in classItem.Methods)
                     {
@@ -58,7 +58,7 @@ Namespace {workItem.Namespace}
                     }
                 }
 
-                if (classItem.Owns.Any())
+                if (classItem.Owns.Count is not 0)
                 {
                     _ = sourceBuilder.Append($@"                If {(classItem.Stream ? "Not Me.KeepOpen" : "Me.IsOwned")} Then
 ");
@@ -74,7 +74,7 @@ Namespace {workItem.Namespace}
 ");
                 }
 
-                if (classItem.Fields.Any())
+                if (classItem.Fields.Count is not 0)
                 {
                     foreach (var fieldItem in classItem.Fields)
                     {
@@ -85,7 +85,7 @@ Namespace {workItem.Namespace}
                     }
                 }
 
-                if (classItem.SetNull.Any())
+                if (classItem.SetNull.Count is not 0)
                 {
                     foreach (var nullItem in classItem.SetNull)
                     {
@@ -104,7 +104,7 @@ Namespace {workItem.Namespace}
             MyBase.Dispose(disposing)
 ");
                 }
-                
+
                 _ = sourceBuilder.Append(@"        End Sub
     End Class
 ");
@@ -135,13 +135,13 @@ namespace {workItem.Namespace};
 {{
     private bool isDisposed;
 ");
-                if (classItem.Owns.Any() && !classItem.Stream)
+                if (classItem.Owns.Count is not 0 && !classItem.Stream)
                 {
                     _ = sourceBuilder.Append(@"
     internal bool IsOwned { get; set; }
 ");
                 }
-                else if (classItem.Owns.Any() && classItem.Stream)
+                else if (classItem.Owns.Count is not 0 && classItem.Stream)
                 {
                     _ = sourceBuilder.Append(@"
     internal bool KeepOpen { get; }
@@ -160,7 +160,7 @@ namespace {workItem.Namespace};
         if (!this.isDisposed && disposing)
         {{
 ");
-                if (classItem.Methods.Any())
+                if (classItem.Methods.Count is not 0)
                 {
                     foreach (var methodItem in classItem.Methods)
                     {
@@ -169,7 +169,7 @@ namespace {workItem.Namespace};
                     }
                 }
 
-                if (classItem.Owns.Any())
+                if (classItem.Owns.Count is not 0)
                 {
                     _ = sourceBuilder.Append($@"            if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
             {{
@@ -186,7 +186,7 @@ namespace {workItem.Namespace};
 ");
                 }
 
-                if (classItem.Fields.Any())
+                if (classItem.Fields.Count is not 0)
                 {
                     foreach (var fieldItem in classItem.Fields)
                     {
@@ -197,7 +197,7 @@ namespace {workItem.Namespace};
                     }
                 }
 
-                if (classItem.SetNull.Any())
+                if (classItem.SetNull.Count is not 0)
                 {
                     foreach (var nullItem in classItem.SetNull)
                     {
@@ -249,13 +249,13 @@ namespace {workItem.Namespace}
     {{
         private bool isDisposed;
 ");
-                if (classItem.Owns.Any() && !classItem.Stream)
+                if (classItem.Owns.Count is not 0 && !classItem.Stream)
                 {
                     _ = sourceBuilder.Append(@"
         internal bool IsOwned { get; set; }
 ");
                 }
-                else if (classItem.Owns.Any() && classItem.Stream)
+                else if (classItem.Owns.Count is not 0 && classItem.Stream)
                 {
                     _ = sourceBuilder.Append(@"
         internal bool KeepOpen { get; }
@@ -274,7 +274,7 @@ namespace {workItem.Namespace}
             if (!this.isDisposed && disposing)
             {{
 ");
-                if (classItem.Methods.Any())
+                if (classItem.Methods.Count is not 0)
                 {
                     foreach (var methodItem in classItem.Methods)
                     {
@@ -283,7 +283,7 @@ namespace {workItem.Namespace}
                     }
                 }
 
-                if (classItem.Owns.Any())
+                if (classItem.Owns.Count is not 0)
                 {
                     _ = sourceBuilder.Append($@"                if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
                 {{
@@ -300,7 +300,7 @@ namespace {workItem.Namespace}
 ");
                 }
 
-                if (classItem.Fields.Any())
+                if (classItem.Fields.Count is not 0)
                 {
                     foreach (var fieldItem in classItem.Fields)
                     {
@@ -311,7 +311,7 @@ namespace {workItem.Namespace}
                     }
                 }
 
-                if (classItem.SetNull.Any())
+                if (classItem.SetNull.Count is not 0)
                 {
                     foreach (var nullItem in classItem.SetNull)
                     {

@@ -5,10 +5,10 @@ internal class ClassItems
     public string? Name { get; set; }
     public Accessibility Accessibility { get; set; }
     public bool Stream { get; set; }
-    public List<string> Owns { get; } = new();
-    public List<string> Fields { get; } = new();
-    public List<string> SetNull { get ; } = new();
-    public List<string> Methods { get; } = new();
+    public List<string> Owns { get; } = [];
+    public List<string> Fields { get; } = [];
+    public List<string> SetNull { get; } = [];
+    public List<string> Methods { get; } = [];
 
     public bool AddSetNull(ISymbol member)
     {
@@ -42,13 +42,14 @@ internal class ClassItems
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $@"Class: Name {(
-            this.Name)}, Accessibility: {(
-            this.Accessibility)}, Stream: {(
-            this.Stream)}, Owns Count: {(
-            this.Owns.Count)}, Fields Count: {(
-            this.Fields.Count)}, SetNull Count: {(
-            this.SetNull.Count)}, Methods Count: {(
-            this.Methods.Count)}";
+        var result = new StringBuilder();
+        _ = result.Append($"Class: Name {this.Name}")
+            .Append($", Accessibility: {this.Accessibility}")
+            .Append($", Stream: {this.Stream}")
+            .Append($", Owns Count: {this.Owns.Count}")
+            .Append($", Fields Count: {this.Fields.Count}")
+            .Append($", SetNull Count: {this.SetNull.Count}")
+            .Append($", Methods Count: {this.Methods.Count}");
+        return result.ToString();
     }
 }
