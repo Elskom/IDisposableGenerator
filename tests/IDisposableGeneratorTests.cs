@@ -4,7 +4,7 @@ public partial class IDisposableGeneratorTests
 {
     [Fact]
     public async Task TestGeneratingNoInput()
-        => await RunTest<CSGeneratorTest>(string.Empty, string.Empty).ConfigureAwait(false);
+        => await RunTest<CSGeneratorTest>(string.Empty, string.Empty);
 
     private static async Task RunTest<TestType>(
         string generatedSource,
@@ -16,7 +16,7 @@ public partial class IDisposableGeneratorTests
     {
         var test = new TestType
         {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestState =
             {
                 Sources =

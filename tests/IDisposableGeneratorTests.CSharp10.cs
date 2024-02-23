@@ -41,7 +41,7 @@ public partial class TestDisposable
     [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestGeneratingDisposableNotOwnsCSharp10()
@@ -82,7 +82,7 @@ internal partial class TestDisposable
     [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestGeneratingDisposableOwnsCSharp10()
@@ -128,7 +128,7 @@ internal partial class TestDisposable
     [NullOnDispose]
     char[] testsetnull = new char[] { 't', 'e', 's', 't', 'i', 'n', 'g' };
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestGeneratingStreamNotOwnsCSharp10()
@@ -180,7 +180,7 @@ internal partial class TestDisposable : Stream
     public override void SetLength(long _) => throw new NotSupportedException();
     public override void Write(byte[] _, int _1, int _2) => throw new NotSupportedException();
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestGeneratingStreamOwnsCSharp10()
@@ -237,7 +237,7 @@ internal partial class TestDisposable : Stream
     public override void SetLength(long _) => throw new NotSupportedException();
     public override void Write(byte[] _, int _1, int _2) => throw new NotSupportedException();
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestGeneratingCallOnDisposeCSharp10()
@@ -286,7 +286,7 @@ internal partial class TestDisposable
         // here as this is called inside of Dispose(bool)).
     }
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestAttributeOnDisposableMemberFromBCLCSharp10()
@@ -324,7 +324,7 @@ internal partial class TestDisposable
     [StringLength(50)]
     public string? test { get; set; } = ""stuff here."";
 }
-", LanguageVersion.CSharp10).ConfigureAwait(false);
+", LanguageVersion.CSharp10);
 
     [Fact]
     public async Task TestGeneratingDisposableWithMultipleNamespacesCSharp10()
@@ -418,6 +418,6 @@ internal partial class TestDisposable
     [NullOnDispose]
     public string? test { get; set; } = ""stuff here."";
 }
-", LanguageVersion.CSharp10, testSources, generatedSources).ConfigureAwait(false);
+", LanguageVersion.CSharp10, testSources, generatedSources);
     }
 }

@@ -1,5 +1,10 @@
 <Project>
 
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="../../src/IDisposableGenerator.CSharp/IDisposableGenerator.CSharp.csproj" />
     <ProjectReference Include="../../src/IDisposableGenerator.VisualBasic/IDisposableGenerator.VisualBasic.csproj" />

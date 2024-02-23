@@ -1,5 +1,10 @@
 <Project>
 
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="../IDisposableGenerator/IDisposableGenerator.csproj" />
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.0.1">

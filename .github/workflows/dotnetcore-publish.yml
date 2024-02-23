@@ -15,11 +15,11 @@ jobs:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
     steps:
     - uses: actions/checkout@main
-    - name: .NET core build
-      uses: actions/setup-dotnet@main
+    - name: Install latest .NET 8 SDK
+      uses: Elskom/setup-latest-dotnet@main
       with:
-        dotnet-version: '6.0.x'
-        include-prerelease: true
+        SDK_VERSION: '8.0.200'
+        RUNTIME_VERSIONS: ''
 
     - name: Restore, Build, test, pack, and push
       uses: Elskom/build-dotnet@main

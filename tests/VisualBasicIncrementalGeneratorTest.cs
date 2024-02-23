@@ -4,24 +4,36 @@ public class VisualBasicIncrementalGeneratorTest<TSourceGenerator, TVerifier> : 
     where TSourceGenerator : IIncrementalGenerator, new()
     where TVerifier : IVerifier, new()
 {
-    protected override IEnumerable<ISourceGenerator> GetSourceGenerators()
-        => new[] { new TSourceGenerator().AsSourceGenerator() };
+    protected override IEnumerable<Type> GetSourceGenerators()
+        => [typeof(TSourceGenerator)];
 
     protected override string DefaultFileExt => "vb";
 
     public override string Language => LanguageNames.VisualBasic;
 
-    [ExcludeFromCodeCoverage]
-    protected override GeneratorDriver CreateGeneratorDriver(Project project, ImmutableArray<ISourceGenerator> sourceGenerators)
-        => VisualBasicGeneratorDriver.Create(
-            sourceGenerators,
-            project.AnalyzerOptions.AdditionalFiles,
-            (VisualBasicParseOptions)project.ParseOptions!,
-            project.AnalyzerOptions.AnalyzerConfigOptionsProvider);
+    public List<(string, string)> GlobalOptions { get; } = [];
 
+    public Microsoft.CodeAnalysis.VisualBasic.LanguageVersion LanguageVersion { get; set; } = Microsoft.CodeAnalysis.VisualBasic.LanguageVersion.Default;
+
+    // [ExcludeFromCodeCoverage]
+    // protected override GeneratorDriver CreateGeneratorDriver(Project project, ImmutableArray<ISourceGenerator> sourceGenerators)
+    //     => VisualBasicGeneratorDriver.Create(
+    //         sourceGenerators,
+    //         project.AnalyzerOptions.AdditionalFiles,
+    //         (VisualBasicParseOptions)project.ParseOptions!,
+    //         project.AnalyzerOptions.AnalyzerConfigOptionsProvider);
+
+    [ExcludeFromCodeCoverage]
     protected override CompilationOptions CreateCompilationOptions()
         => new VisualBasicCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
+    [ExcludeFromCodeCoverage]
     protected override ParseOptions CreateParseOptions()
-        => new VisualBasicParseOptions(Microsoft.CodeAnalysis.VisualBasic.LanguageVersion.Default, DocumentationMode.Diagnose);
+        => new VisualBasicParseOptions(this.LanguageVersion, DocumentationMode.Diagnose);
+
+    [ExcludeFromCodeCoverage]
+    protected override AnalyzerOptions GetAnalyzerOptions(Project project)
+        => new(
+            project.AnalyzerOptions.AdditionalFiles,
+            new OptionsProvider(project.AnalyzerOptions.AnalyzerConfigOptionsProvider, this.GlobalOptions));
 }
