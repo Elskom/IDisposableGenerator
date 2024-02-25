@@ -1,20 +1,17 @@
 namespace IDisposableGenerator;
 
-internal class WorkItemCollection
+internal class WorkItemCollection(Compilation compilation)
 {
-    internal Compilation Compilation { get; }
-    private List<WorkItem> WorkItems { get; } = new();
-
-    public WorkItemCollection(Compilation compilation)
-        => this.Compilation = compilation;
+    internal Compilation Compilation { get; } = compilation;
+    private List<WorkItem> WorkItems { get; } = [];
 
     public int Count => this.WorkItems.Count;
 
     public void Process(INamedTypeSymbol testClass, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        AddFromNamespace(testClass.FullNamespace());
-        var workItem = FindWithNamespace(testClass.FullNamespace());
+        this.AddFromNamespace(testClass.FullNamespace());
+        var workItem = this.FindWithNamespace(testClass.FullNamespace());
         ct.ThrowIfCancellationRequested();
 
         // Avoid a bug that would set namespace to "IDisposableGenerator"
@@ -28,7 +25,7 @@ internal class WorkItemCollection
         var classItemsQuery =
             from att in testClass.GetAttributes()
             where att.AttributeClass!.Name.Equals(
-                "GenerateDisposeAttribute")
+                "GenerateDisposeAttribute", StringComparison.Ordinal)
             select GetClassItem(att, testClass);
         var memberQuery =
             from member in testClass.GetMembers()
@@ -94,7 +91,7 @@ internal class WorkItemCollection
             return;
         }
 
-        WorkItems.Add(new WorkItem
+        this.WorkItems.Add(new WorkItem
         {
             Namespace = nameSpace,
         });
