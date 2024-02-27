@@ -56,6 +56,7 @@ internal class WorkItemCollection(Compilation compilation)
 
         foreach (var attr in testClass.GetAttributes())
         {
+#pragma warning disable IDE0010 // Add missing cases
             switch (attr.AttributeClass!.Name)
             {
                 case "GenerateDisposeAttribute":
@@ -67,12 +68,11 @@ internal class WorkItemCollection(Compilation compilation)
                 case "GenerateThrowIfDisposedAttribute":
                     result.ThrowIfDisposed = true;
                     break;
-                default:
-                    break;
             }
+#pragma warning restore IDE0010 // Add missing cases
         }
 
-        return !hasDisposalGeneration ? null : result;
+        return hasDisposalGeneration ? result : null;
     }
 
     private static void CheckAttributesOnMember(ISymbol member,
