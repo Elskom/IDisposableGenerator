@@ -106,7 +106,7 @@ Namespace {workItem.Namespace}
 
                     """);
 
-                if (classItem.ThrowIfDisposed)
+                if (!classItem.WithoutThrowIfDisposed)
                 {
                     _ = sourceBuilder.Append($$"""
 
@@ -233,7 +233,7 @@ namespace {workItem.Namespace};
 
                     """);
 
-                if (classItem.ThrowIfDisposed)
+                if (!classItem.WithoutThrowIfDisposed)
                 {
                     _ = sourceBuilder.Append($$"""
 
@@ -364,7 +364,7 @@ namespace {workItem.Namespace}
 
                     """);
 
-                if (classItem.ThrowIfDisposed)
+                if (!classItem.WithoutThrowIfDisposed)
                 {
                     _ = sourceBuilder.Append($$"""
 

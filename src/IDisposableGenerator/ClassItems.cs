@@ -5,7 +5,7 @@ internal class ClassItems
     public string? Name { get; set; }
     public Accessibility Accessibility { get; set; }
     public bool Stream { get; set; }
-    public bool ThrowIfDisposed { get; set; }
+    public bool WithoutThrowIfDisposed { get; set; }
     public List<string> Owns { get; } = [];
     public List<string> Fields { get; } = [];
     public List<string> SetNull { get; } = [];
@@ -47,7 +47,7 @@ internal class ClassItems
         _ = result.Append($"Class: Name {this.Name}")
             .Append($", Accessibility: {this.Accessibility}")
             .Append($", Stream: {this.Stream}")
-            .Append($", ThrowIfDisposed: {this.ThrowIfDisposed}")
+            .Append($", Without ThrowIfDisposed: {this.WithoutThrowIfDisposed}")
             .Append($", Owns Count: {this.Owns.Count}")
             .Append($", Fields Count: {this.Fields.Count}")
             .Append($", SetNull Count: {this.SetNull.Count}")
