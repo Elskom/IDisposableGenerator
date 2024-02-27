@@ -22,19 +22,19 @@ internal class WorkItemCollection(Compilation compilation)
         }
 
         ct.ThrowIfCancellationRequested();
-        var classItemsQuery =
-            from att in testClass.GetAttributes()
-            where att.AttributeClass!.Name.Equals(
-                "GenerateDisposeAttribute", StringComparison.Ordinal)
-            select GetClassItem(att, testClass);
+        var classItem = GetClassItem(testClass);
+
+        if (classItem is null)
+        {
+            return;
+        }
+
+        ct.ThrowIfCancellationRequested();
+        workItem!.Classes.Add(classItem);
+
         var memberQuery =
             from member in testClass.GetMembers()
             select member;
-        foreach (var classItem in classItemsQuery)
-        {
-            ct.ThrowIfCancellationRequested();
-            workItem!.Classes.Add(classItem);
-        }
 
         foreach (var member in memberQuery)
         {
@@ -49,16 +49,30 @@ internal class WorkItemCollection(Compilation compilation)
     public int IndexOf(WorkItem item)
         => this.WorkItems.IndexOf(item);
 
-    private static ClassItems GetClassItem(AttributeData attr, INamedTypeSymbol testClass)
+    private static ClassItems? GetClassItem(INamedTypeSymbol testClass)
     {
-        var result = new ClassItems
-        {
-            Name = testClass.Name,
-            Accessibility = testClass.DeclaredAccessibility,
-            Stream = (bool)attr.ConstructorArguments[0].Value!,
-        };
+        var result = new ClassItems();
+        var hasDisposalGeneration = false;
 
-        return result;
+        foreach (var attr in testClass.GetAttributes())
+        {
+            switch (attr.AttributeClass!.Name)
+            {
+                case "GenerateDisposeAttribute":
+                    hasDisposalGeneration = true;
+                    result.Name = testClass.Name;
+                    result.Accessibility = testClass.DeclaredAccessibility;
+                    result.Stream = (bool)attr.ConstructorArguments[0].Value!;
+                    break;
+                case "GenerateThrowIfDisposedAttribute":
+                    result.ThrowIfDisposed = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return !hasDisposalGeneration ? null : result;
     }
 
     private static void CheckAttributesOnMember(ISymbol member,

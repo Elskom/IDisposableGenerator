@@ -101,9 +101,28 @@ Namespace {workItem.Namespace}
 ");
                 }
 
-                _ = sourceBuilder.Append(@"        End Sub
-    End Class
-");
+                _ = sourceBuilder.Append("""
+                            End Sub
+
+                    """);
+
+                if (classItem.ThrowIfDisposed)
+                {
+                    _ = sourceBuilder.Append($$"""
+
+                                Friend Sub ThrowIfDisposed()
+                                    If Me.isDisposed Then
+                                        Throw New ObjectDisposedException(NameOf({{classItem.Name}}))
+                                    End If
+                                End Sub
+
+                        """);
+                }
+
+                _ = sourceBuilder.Append("""
+                        End Class
+
+                    """);
             }
 
             _ = sourceBuilder.Append(@"End Namespace
@@ -209,9 +228,30 @@ namespace {workItem.Namespace};
 ");
                 }
 
-                _ = sourceBuilder.Append(@"    }
-}
-");
+                _ = sourceBuilder.Append("""
+                        }
+
+                    """);
+
+                if (classItem.ThrowIfDisposed)
+                {
+                    _ = sourceBuilder.Append($$"""
+
+                            internal void ThrowIfDisposed()
+                            {
+                                if (this.isDisposed)
+                                {
+                                    throw new ObjectDisposedException(nameof({{classItem.Name}}));
+                                }
+                            }
+
+                        """);
+                }
+
+                _ = sourceBuilder.Append("""
+                    }
+
+                    """);
             }
 
             // inject the created sources into the users compilation.
@@ -319,13 +359,36 @@ namespace {workItem.Namespace}
 ");
                 }
 
-                _ = sourceBuilder.Append(@"        }
-    }
-");
+                _ = sourceBuilder.Append("""
+                            }
+
+                    """);
+
+                if (classItem.ThrowIfDisposed)
+                {
+                    _ = sourceBuilder.Append($$"""
+
+                                internal void ThrowIfDisposed()
+                                {
+                                    if (this.isDisposed)
+                                    {
+                                        throw new ObjectDisposedException(nameof({{classItem.Name}}));
+                                    }
+                                }
+
+                        """);
+                }
+
+                _ = sourceBuilder.Append("""
+                        }
+
+                    """);
             }
 
-            _ = sourceBuilder.Append(@"}
-");
+            _ = sourceBuilder.Append("""
+                    }
+
+                    """);
         }
 
         // inject the created source into the users compilation.
