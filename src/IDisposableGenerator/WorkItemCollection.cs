@@ -65,8 +65,8 @@ internal class WorkItemCollection(Compilation compilation)
                     result.Accessibility = testClass.DeclaredAccessibility;
                     result.Stream = (bool)attr.ConstructorArguments[0].Value!;
                     break;
-                case "GenerateThrowIfDisposedAttribute":
-                    result.ThrowIfDisposed = true;
+                case "WithoutThrowIfDisposedAttribute":
+                    result.WithoutThrowIfDisposed = true;
                     break;
             }
 #pragma warning restore IDE0010 // Add missing cases
