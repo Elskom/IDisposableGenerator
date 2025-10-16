@@ -16,21 +16,21 @@ internal static class SemanticHelper
             iterator = iterator.ContainingNamespace;
         }
 
-        return string.Join(".", parts);
+        return parts.Count == 0 ? string.Empty : string.Join(".", parts);
     }
 
     public static bool FullNamespaceEquals(this ISymbol symbol, string @namespace)
         => symbol.FullNamespace().Equals(@namespace, StringComparison.Ordinal);
 
     public static void ToSourceFile(
-        this string source,
+        this StringBuilder source,
         string sourceName,
         ref SourceProductionContext context)
-        => context.AddSource(sourceName, source);
+        => context.AddSource(sourceName, source.ToString());
 
     public static void ToSourceFile(
-        this string source,
+        this StringBuilder source,
         string sourceName,
         ref IncrementalGeneratorPostInitializationContext context)
-        => context.AddSource(sourceName, source);
+        => context.AddSource(sourceName, source.ToString());
 }

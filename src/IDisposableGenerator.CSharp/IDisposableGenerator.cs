@@ -1,5 +1,7 @@
 ﻿namespace IDisposableGenerator;
 
+using System.Text;
+
 [Generator]
 public class IDisposableGenerator : IIncrementalGenerator
 {
@@ -45,7 +47,8 @@ public class IDisposableGenerator : IIncrementalGenerator
         context.RegisterPostInitializationOutput(ctx =>
         {
             // Always generate the attributes.
-            var attributeSource = Properties.Resources.AttributeCodeCSharp!;
+            var attributeSource = new StringBuilder();
+            _ = attributeSource.Append(Properties.Resources.AttributeCodeCSharp!);
             attributeSource.ToSourceFile("GeneratedAttributes.g.cs", ref ctx);
         });
     }

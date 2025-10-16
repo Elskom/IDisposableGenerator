@@ -1,5 +1,5 @@
 namespace IDisposableGenerator.Tests;
 
-public class VBGeneratorTest : VisualBasicIncrementalGeneratorTest<IDisposableGeneratorVB, XUnitVerifier>
+public class VBGeneratorTest : VisualBasicIncrementalGeneratorTest<IDisposableGeneratorVB, DefaultVerifier>
 {
 }
