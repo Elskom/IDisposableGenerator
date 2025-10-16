@@ -1,5 +1,7 @@
 ﻿namespace IDisposableGenerator;
 
+using System.Text;
+
 [Generator(LanguageNames.VisualBasic)]
 public class IDisposableGeneratorVB : IIncrementalGenerator
 {
@@ -28,7 +30,8 @@ public class IDisposableGeneratorVB : IIncrementalGenerator
         context.RegisterPostInitializationOutput(ctx =>
         {
             // Always generate the attributes.
-            var attributeSource = Properties.Resources.AttributeCodeVisualBasic!;
+            var attributeSource = new StringBuilder();
+            _ = attributeSource.Append(Properties.Resources.AttributeCodeVisualBasic!);
             attributeSource.ToSourceFile("GeneratedAttributes.g.vb", ref ctx);
         });
     }

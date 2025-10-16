@@ -12,7 +12,7 @@ public partial class IDisposableGeneratorTests
         LanguageVersion? languageVersion = LanguageVersion.CSharp9,
         List<string>? testSources = null,
         Dictionary<string, string>? generatedSources = null)
-        where TestType : SourceGeneratorTest<XUnitVerifier>, IGeneratorTestBase, new()
+        where TestType : SourceGeneratorTest<DefaultVerifier>, IGeneratorTestBase, new()
     {
         var test = new TestType
         {
