@@ -1,6 +1,6 @@
 queue_rules:
   - name: default
-    conditions:
+    queue_conditions:
       - -conflict # skip PRs with conflicts
       - -draft # filter-out GH draft PRs
       - -closed # filter-out closed GH PRs
@@ -10,6 +10,8 @@ queue_rules:
       - check-success=Codacy Static Code Analysis
       - check-success=DCO
       - check-success=WIP
+    merge_method: squash
+    update_method: rebase
 
 pull_request_rules:
   # for check failures / WIP pending check.
@@ -98,8 +100,6 @@ pull_request_rules:
         message: Automatically approving since automerge label was found.
       queue:
         name: default
-        method: squash
-        update_method: rebase
 
   - name: Remove automerge label
     conditions:
