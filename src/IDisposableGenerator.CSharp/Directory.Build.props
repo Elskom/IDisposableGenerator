@@ -5,8 +5,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
     <IsPackable>false</IsPackable>
-    <Version>1.1.1</Version>
-    <Copyright>Copyright (c) 2021~2022</Copyright>
+    <Version>1.2.0</Version>
+    <Copyright>Copyright (c) 2021~2025</Copyright>
     <!-- Special properties for analyzer packages. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
