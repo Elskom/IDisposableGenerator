@@ -1,45 +1,56 @@
 namespace IDisposableGenerator;
 
-internal class WorkItemCollection(Compilation compilation)
+internal class WorkItemCollection(IGeneratedCodeWriter generatedCodeWriter)
 {
-    internal Compilation Compilation { get; } = compilation;
+    internal IGeneratedCodeWriter GeneratedCodeWriter { get; } = generatedCodeWriter;
     private List<WorkItem> WorkItems { get; } = [];
 
     public int Count => this.WorkItems.Count;
 
-    public void Process(INamedTypeSymbol testClass, CancellationToken ct)
+    public void Process(ImmutableArray<INamedTypeSymbol> testClasses, CancellationToken ct)
     {
-        ct.ThrowIfCancellationRequested();
-        this.AddFromNamespace(testClass.FullNamespace());
-        var workItem = this.FindWithNamespace(testClass.FullNamespace());
-        ct.ThrowIfCancellationRequested();
-
-        // Avoid a bug that would set namespace to "IDisposableGenerator"
-        // instead of the namespace that the WorkItem's classes are in.
-        if (testClass.FullNamespaceEquals("IDisposableGenerator"))
-        {
-            return;
-        }
-
-        ct.ThrowIfCancellationRequested();
-        var classItem = GetClassItem(testClass);
-
-        if (classItem is null)
-        {
-            return;
-        }
-
-        ct.ThrowIfCancellationRequested();
-        workItem!.Classes.Add(classItem);
-
-        var memberQuery =
-            from member in testClass.GetMembers()
-            select member;
-
-        foreach (var member in memberQuery)
+        foreach (var testClass in testClasses)
         {
             ct.ThrowIfCancellationRequested();
-            CheckAttributesOnMember(member, testClass, ref workItem!, ct);
+            var workItem = this.FindWithNamespace(testClass.FullNamespace());
+            if (workItem is null || !testClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal))
+            {
+                workItem = new WorkItem
+                {
+                    Namespace = testClass.FullNamespace(),
+                };
+            }
+            ct.ThrowIfCancellationRequested();
+
+            // Avoid a bug that would set namespace to "IDisposableGenerator"
+            // instead of the namespace that the WorkItem's classes are in.
+            if (testClass.FullNamespaceEquals("IDisposableGenerator"))
+            {
+                continue;
+            }
+
+            ct.ThrowIfCancellationRequested();
+            var classItem = GetClassItem(testClass);
+
+            if (classItem is null)
+            {
+                continue;
+            }
+
+            ct.ThrowIfCancellationRequested();
+            workItem.Classes.Add(classItem);
+
+            var memberQuery =
+                from member in testClass.GetMembers()
+                select member;
+
+            foreach (var member in memberQuery)
+            {
+                ct.ThrowIfCancellationRequested();
+                CheckAttributesOnMember(member, testClass, ref workItem, ct);
+            }
+
+            this.WorkItems.Add(workItem);
         }
     }
 
@@ -95,20 +106,6 @@ internal class WorkItemCollection(Compilation compilation)
                 _ => false,
             };
         }
-    }
-
-    private void AddFromNamespace(string nameSpace)
-    {
-        if (this.FindWithNamespace(nameSpace) is not null
-            || nameSpace.Equals("IDisposableGenerator", StringComparison.Ordinal))
-        {
-            return;
-        }
-
-        this.WorkItems.Add(new WorkItem
-        {
-            Namespace = nameSpace,
-        });
     }
 
     private WorkItem? FindWithNamespace(string nameSpace)

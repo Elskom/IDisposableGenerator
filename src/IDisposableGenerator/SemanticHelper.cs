@@ -33,4 +33,21 @@ internal static class SemanticHelper
         string sourceName,
         ref IncrementalGeneratorPostInitializationContext context)
         => context.AddSource(sourceName, source.ToString());
+
+    public static void RegisterSourceOutput<T>(IncrementalGeneratorInitializationContext context, IncrementalValueProvider<WorkItemCollection> workItemCollection)
+        => context.RegisterSourceOutput(
+            context.SyntaxProvider.CreateSyntaxProvider(
+                static (n, _) => n is T,
+                static (n, ct) => (INamedTypeSymbol)n.SemanticModel.GetDeclaredSymbol(n.Node, ct)!)
+            .Collect().Combine(workItemCollection),
+            static (ctx, items) =>
+            {
+                items.Right.Process(items.Left, ctx.CancellationToken);
+
+                // begin creating the source we'll inject into the users compilation
+                foreach (var (file, code) in items.Right.GeneratedCodeWriter.ToCodeStrings(items.Right.GetWorkItems().AsReadOnly()))
+                {
+                    code.ToSourceFile(file, ref ctx);
+                }
+            });
 }

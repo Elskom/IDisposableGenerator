@@ -124,46 +124,76 @@ namespace IDisposableGenerator
 {
     using System;
 
-    // used only by a source generator to generate Dispose() and Dispose(bool).
+    /// &lt;summary&gt;
+    /// Marks a method to be called when Dispose() is called in the source generated code.
+    /// &lt;/summary&gt;
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     internal class CallOnDisposeAttribute : Attribute
     {
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref="CallOnDisposeAttribute"/&gt; class.
+        /// &lt;/summary&gt;
         public CallOnDisposeAttribute()
         {
         }
     }
 
-    // used only by a source generator to generate Dispose() and Dispose(bool).
-    [AttributeUsage(AttributeTargets.Event | AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    /// &lt;summary&gt;
+    /// Marks a field or property as needing disposal when Dispose() is called in the source generated code.
+    /// &lt;/summary&gt;
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     internal class DisposeFieldAttribute : Attribute
     {
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref="DisposeFieldAttribute"/&gt; class.
+        /// &lt;/summary&gt;
+        /// &lt;param name="owner">If the type is the owner of the field.&lt;/param&gt;
         public DisposeFieldAttribute(bool owner)
         {
         }
     }
 
-    // used only by a source generator to generate Dispose() and Dispose(bool).
+    /// &lt;summary&gt;
+    /// Marks a class to have Disposal methods generated.
+    /// &lt;/summary&gt;
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     internal class GenerateDisposeAttribute : Attribute
     {
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref="GenerateDisposeAttribute"/&gt; class.
+        /// &lt;/summary&gt;
+        /// &lt;param name="stream"&gt;&lt;see langword="true" /&gt; if the &lt;see langword="class"/&gt; is a &lt;see cref="Stream" /&gt; based &lt;see langword="class"/&gt;, &lt;see langword="false" /&gt; otherwise.&lt;/param&gt;
         public GenerateDisposeAttribute(bool stream)
         {
         }
     }
 
-    // used only by a source generator to generate Dispose() and Dispose(bool).
-    [AttributeUsage(AttributeTargets.Event | AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    /// &lt;summary&gt;
+    /// Marks a field or property to be set to null when Dispose() is called in the source generated code.
+    /// &lt;/summary&gt;
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     internal class NullOnDisposeAttribute : Attribute
     {
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref="NullOnDisposeAttribute"/&gt; class.
+        /// &lt;/summary&gt;
         public NullOnDisposeAttribute()
         {
         }
     }
 
-    // used only by a source generator to generate Dispose() and Dispose(bool).
+    /// &lt;summary&gt;
+    /// Informs the source generator not to generate the ThrowIfDisposed() method in the generated code.
+    /// &lt;/summary&gt;
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     internal class WithoutThrowIfDisposedAttribute : Attribute
     {
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref="WithoutThrowIfDisposedAttribute"/&gt; class.
+        /// &lt;/summary&gt;
+        public WithoutThrowIfDisposedAttribute()
+        {
+        }
     }
 }
 #pragma warning restore SA1636, 8618
@@ -176,40 +206,76 @@ Imports System
 
 Namespace IDisposableGenerator
 
-    ' used only by a source generator to generate Dispose() and Dispose(bool).
+    ''' &lt;summary&gt;
+    ''' Marks a method to be called when Dispose() is called in the source generated code.
+    ''' &lt;/summary&gt;
     &lt;AttributeUsage(AttributeTargets.Method, Inherited:=False, AllowMultiple:=False)&gt;
     Friend Class CallOnDisposeAttribute
         Inherits Attribute
+
+        ''' &lt;summary&gt;
+        ''' Initializes a new instance of the &lt;see cref="CallOnDisposeAttribute"/&gt; class.
+        ''' &lt;/summary&gt;
+        Public Sub New()
+        End Sub
     End Class
 
-    ' used only by a source generator to generate Dispose() and Dispose(bool).
+    ''' &lt;summary&gt;
+    ''' Marks a field or property as needing disposal when Dispose() is called in the source generated code.
+    ''' &lt;/summary&gt;
     &lt;AttributeUsage(AttributeTargets.Event Or AttributeTargets.Field Or AttributeTargets.Property, Inherited:=False, AllowMultiple:=False)&gt;
     Friend Class DisposeFieldAttribute
         Inherits Attribute
 
+        ''' &lt;summary&gt;
+        ''' Initializes a new instance of the &lt;see cref="DisposeFieldAttribute"/&gt; class.
+        ''' &lt;/summary&gt;
+        ''' &lt;param name="owner">If the type is the owner of the field.&lt;/param&gt;
         Public Sub New(owner As Boolean)
         End Sub
     End Class
 
-    ' used only by a source generator to generate Dispose() and Dispose(bool).
+    ''' &lt;summary&gt;
+    ''' Marks a class to have Disposal methods generated.
+    ''' &lt;/summary&gt;
     &lt;AttributeUsage(AttributeTargets.Class, Inherited:=False, AllowMultiple:=False)&gt;
     Friend Class GenerateDisposeAttribute
         Inherits Attribute
 
+        ''' &lt;summary&gt;
+        ''' Initializes a new instance of the &lt;see cref="GenerateDisposeAttribute"/&gt; class.
+        ''' &lt;/summary&gt;
+        ''' &lt;param name="stream"&gt;&lt;see langword="true" /&gt; if the &lt;see langword="class"/&gt; is a &lt;see cref="Stream" /&gt; based &lt;see langword="class"/&gt;, &lt;see langword="false" /&gt; otherwise.&lt;/param&gt;
         Public Sub New(stream As Boolean)
         End Sub
     End Class
 
-    ' used only by a source generator to generate Dispose() and Dispose(bool).
+    ''' &lt;summary&gt;
+    ''' Marks a field or property to be set to null when Dispose() is called in the source generated code.
+    ''' &lt;/summary&gt;
     &lt;AttributeUsage(AttributeTargets.Event Or AttributeTargets.Field Or AttributeTargets.Property, Inherited:=False, AllowMultiple:=False)&gt;
     Friend Class NullOnDisposeAttribute
         Inherits Attribute
+
+        ''' &lt;summary&gt;
+        ''' Initializes a new instance of the &lt;see cref="NullOnDisposeAttribute"/&gt; class.
+        ''' &lt;/summary&gt;
+        Public Sub New()
+        End Sub
     End Class
 
-    ' used only by a source generator to generate Dispose() and Dispose(bool).
+    ''' &lt;summary&gt;
+    ''' Informs the source generator not to generate the ThrowIfDisposed() method in the generated code.
+    ''' &lt;/summary&gt;
     &lt;AttributeUsage(AttributeTargets.Class, Inherited:=False, AllowMultiple:=False)&gt;
     Friend Class WithoutThrowIfDisposedAttribute
         Inherits Attribute
+
+        ''' &lt;summary&gt;
+        ''' Initializes a new instance of the &lt;see cref="WithoutThrowIfDisposedAttribute"/&gt; class.
+        ''' &lt;/summary&gt;
+        Public Sub New()
+        End Sub
     End Class
 
 End Namespace

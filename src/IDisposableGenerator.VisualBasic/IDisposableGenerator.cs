@@ -9,25 +9,9 @@ public class IDisposableGeneratorVB : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var workItemCollection = context.CompilationProvider.Select(
-            static (c, _) => new WorkItemCollection(c));
-        var workItems = context.SyntaxProvider.CreateSyntaxProvider(
-            static (n, _) => n is ClassBlockSyntax,
-            static (n, ct) => (INamedTypeSymbol)n.SemanticModel.GetDeclaredSymbol(n.Node, ct)!
-            ).Combine(workItemCollection).Select(
-            static (testClass, ct) =>
-            {
-                testClass.Right.Process(testClass.Left, ct);
-                return true;
-            });
-        var combined = workItems.Collect().Combine(workItemCollection);
-        context.RegisterSourceOutput(combined, (ctx, items) =>
-        {
-            // begin creating the source we'll inject into the users compilation
-            DisposableCodeWriter.WriteDisposableCodeVisualBasic(
-                items.Right,
-                ref ctx);
-        });
-        context.RegisterPostInitializationOutput(ctx =>
+            static (_, _) => new WorkItemCollection(new VisualBasicGeneratedCodeWriter()));
+        SemanticHelper.RegisterSourceOutput<ClassBlockSyntax>(context, workItemCollection);
+        context.RegisterPostInitializationOutput(static ctx =>
         {
             // Always generate the attributes.
             var attributeSource = new StringBuilder();

@@ -14,6 +14,7 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>$(AssemblyName).VisualBasic</_Parameter1>
     </AssemblyAttribute>
+    <Using Include="System.Collections.Immutable" />
     <Using Include="System.ComponentModel" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Resources" />
