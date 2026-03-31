@@ -10,12 +10,12 @@ public class IDisposableGeneratorVB : IIncrementalGenerator
     {
         var workItemCollection = context.CompilationProvider.Select(
             static (_, _) => new WorkItemCollection(new VisualBasicGeneratedCodeWriter()));
-        SemanticHelper.RegisterSourceOutput<ClassBlockSyntax>(context, workItemCollection);
+        SemanticHelper.RegisterSourceOutput<ClassStatementSyntax>(context, workItemCollection);
         context.RegisterPostInitializationOutput(static ctx =>
         {
             // Always generate the attributes.
             var attributeSource = new StringBuilder();
-            _ = attributeSource.Append(Properties.Resources.AttributeCodeVisualBasic!);
+            _ = attributeSource.Append(Properties.Resources.AttributeCodeVisualBasic);
             attributeSource.ToSourceFile("GeneratedAttributes.g.vb", ref ctx);
         });
     }

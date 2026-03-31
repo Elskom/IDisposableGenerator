@@ -6,7 +6,7 @@
     <LangVersion>preview</LangVersion>
     <IsPackable>false</IsPackable>
     <Version>1.2.0</Version>
-    <Copyright>Copyright (c) 2021~2025</Copyright>
+    <Copyright>Copyright (c) 2021~2026</Copyright>
     <!-- Special properties for analyzer packages. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>

@@ -36,9 +36,10 @@ internal static class SemanticHelper
 
     public static void RegisterSourceOutput<T>(IncrementalGeneratorInitializationContext context, IncrementalValueProvider<WorkItemCollection> workItemCollection)
         => context.RegisterSourceOutput(
-            context.SyntaxProvider.CreateSyntaxProvider(
+            context.SyntaxProvider.ForAttributeWithMetadataName(
+                "IDisposableGenerator.GenerateDisposeAttribute",
                 static (n, _) => n is T,
-                static (n, ct) => (INamedTypeSymbol)n.SemanticModel.GetDeclaredSymbol(n.Node, ct)!)
+                static (ctx, _) => ctx.TargetSymbol as INamedTypeSymbol)
             .Collect().Combine(workItemCollection),
             static (ctx, items) =>
             {
