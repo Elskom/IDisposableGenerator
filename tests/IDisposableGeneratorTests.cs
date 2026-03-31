@@ -16,7 +16,7 @@ public partial class IDisposableGeneratorTests
     {
         var test = new TestType
         {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
             TestState =
             {
                 Sources =
