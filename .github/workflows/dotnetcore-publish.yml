@@ -15,10 +15,10 @@ jobs:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
     steps:
     - uses: actions/checkout@main
-    - name: Install latest .NET 8 SDK
+    - name: Install latest .NET 10 SDK
       uses: Elskom/setup-latest-dotnet@main
       with:
-        SDK_VERSION: '8.0.200'
+        SDK_VERSION: '10.0.200'
         RUNTIME_VERSIONS: ''
 
     - name: Restore, Build, test, pack, and push
