@@ -1,5 +1,5 @@
 namespace IDisposableGenerator.Tests;
 
-public class CSGeneratorTest : CSharpIncrementalGeneratorTest<IDisposableGenerator, DefaultVerifier>
+public class CSGeneratorTest : CSharpIncrementalGeneratorTest<IDisposableGeneratorCS, DefaultVerifier>
 {
 }

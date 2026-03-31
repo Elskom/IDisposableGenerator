@@ -21,7 +21,7 @@ public partial class IDisposableGeneratorTests
             {
                 Sources =
                 {
-                    testSource
+                    testSource.ReplaceLineEndings()
                 },
             },
         };
@@ -32,25 +32,25 @@ public partial class IDisposableGeneratorTests
             {
                 tst.LanguageVersion = languageVersion!.Value;
                 test.TestState.GeneratedSources.Add(
-                    (typeof(IDisposableGenerator), "GeneratedAttributes.g.cs", Properties.Resources.AttributeCodeCSharp!));
+                    (typeof(IDisposableGeneratorCS), "GeneratedAttributes.g.cs", Properties.Resources.AttributeCodeCSharp!));
                 if (generatedSources is not null
                     && languageVersion == LanguageVersion.CSharp10)
                 {
                     foreach (var source in testSources!)
                     {
-                        test.TestState.Sources.Add(source);
+                        test.TestState.Sources.Add(source.ReplaceLineEndings());
                     }
 
                     foreach (var (key, value) in generatedSources)
                     {
                         test.TestState.GeneratedSources.Add(
-                            (typeof(IDisposableGenerator), key, value));
+                            (typeof(IDisposableGeneratorCS), key, value.ReplaceLineEndings()));
                     }
                 }
                 else
                 {
                     test.TestState.GeneratedSources.Add(
-                        (typeof(IDisposableGenerator), "Disposables.g.cs", generatedSource));
+                        (typeof(IDisposableGeneratorCS), "Disposables.g.cs", generatedSource.ReplaceLineEndings()));
                 }
 
                 break;
@@ -60,12 +60,12 @@ public partial class IDisposableGeneratorTests
                 test.TestState.GeneratedSources.Add(
                     (typeof(IDisposableGeneratorVB), "GeneratedAttributes.g.vb", Properties.Resources.AttributeCodeVisualBasic!));
                 test.TestState.GeneratedSources.Add(
-                    (typeof(IDisposableGeneratorVB), "Disposables.g.vb", generatedSource));
+                    (typeof(IDisposableGeneratorVB), "Disposables.g.vb", generatedSource.ReplaceLineEndings()));
                 break;
             }
             default:
                 test.TestState.GeneratedSources.Add(
-                    (typeof(IDisposableGenerator), "GeneratedAttributes.g.cs", Properties.Resources.AttributeCodeCSharp!));
+                    (typeof(IDisposableGeneratorCS), "GeneratedAttributes.g.cs", Properties.Resources.AttributeCodeCSharp!));
                 test.TestState.Sources.Clear();
                 break;
         }
