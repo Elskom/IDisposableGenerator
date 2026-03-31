@@ -7,31 +7,18 @@ internal class WorkItemCollection(IGeneratedCodeWriter generatedCodeWriter)
 
     public int Count => this.WorkItems.Count;
 
-    public void Process(ImmutableArray<INamedTypeSymbol> testClasses, CancellationToken ct)
+    public void Process(ImmutableArray<INamedTypeSymbol?> testClasses, CancellationToken ct)
     {
         foreach (var testClass in testClasses)
         {
             ct.ThrowIfCancellationRequested();
-            var workItem = this.FindWithNamespace(testClass.FullNamespace());
-            if (workItem is null || !testClass.FullNamespace().Equals("IDisposableGenerator", StringComparison.Ordinal))
-            {
-                workItem = new WorkItem
+            var workItem = this.FindWithNamespace(testClass!.FullNamespace())
+                ?? new WorkItem
                 {
-                    Namespace = testClass.FullNamespace(),
+                    Namespace = testClass!.FullNamespace(),
                 };
-            }
             ct.ThrowIfCancellationRequested();
-
-            // Avoid a bug that would set namespace to "IDisposableGenerator"
-            // instead of the namespace that the WorkItem's classes are in.
-            if (testClass.FullNamespaceEquals("IDisposableGenerator"))
-            {
-                continue;
-            }
-
-            ct.ThrowIfCancellationRequested();
-            var classItem = GetClassItem(testClass);
-
+            var classItem = GetClassItem(testClass!);
             if (classItem is null)
             {
                 continue;
@@ -39,11 +26,9 @@ internal class WorkItemCollection(IGeneratedCodeWriter generatedCodeWriter)
 
             ct.ThrowIfCancellationRequested();
             workItem.Classes.Add(classItem);
-
             var memberQuery =
-                from member in testClass.GetMembers()
+                from member in testClass!.GetMembers()
                 select member;
-
             foreach (var member in memberQuery)
             {
                 ct.ThrowIfCancellationRequested();

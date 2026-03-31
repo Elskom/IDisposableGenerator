@@ -5,10 +5,6 @@ using System.Text;
 [Generator]
 public class IDisposableGeneratorCS : IIncrementalGenerator
 {
-    private delegate void WriteDisposableCode(
-        WorkItemCollection workItemCollection,
-        ref SourceProductionContext context);
-
     // on MacOS add "SpinWait.SpinUntil(() => Debugger.IsAttached);" to debug in rider.
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
