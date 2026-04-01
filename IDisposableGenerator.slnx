@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/pkg/">
+    <Project Path="pkg/IDisposableGenerator/IDisposableGenerator.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/IDisposableGenerator.CSharp/IDisposableGenerator.CSharp.csproj" />
+    <Project Path="src/IDisposableGenerator.VisualBasic/IDisposableGenerator.VisualBasic.csproj" />
+    <Project Path="src/IDisposableGenerator/IDisposableGenerator.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IDisposableGenerator.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -45,7 +45,21 @@ internal static class CommonExtensions
                 context.SyntaxProvider.ForAttributeWithMetadataName(
                     "IDisposableGenerator.GenerateDisposeAttribute",
                     static (n, _) => n is T,
-                    static (ctx, _) => ctx.TargetSymbol as INamedTypeSymbol)
+                    static (ctx, _) =>
+                    {
+                        var nts = ctx.TargetSymbol as INamedTypeSymbol;
+                        return new ClassSymbolCache
+                        {
+                            Name = nts!.Name,
+                            Namespace = nts!.FullNamespace(),
+                            DeclaredAccessibility = nts!.DeclaredAccessibility,
+                            ClassAttributes = nts!.GetAttributes(),
+                            MemberAttributes = nts!.GetMembers().ToImmutableDictionary(
+                                static member => member,
+                                static member => member.GetAttributes(),
+                                SymbolEqualityComparer.Default)
+                        };
+                    })
                 .Collect().Combine(workItemCollection),
                 static (ctx, items) =>
                 {

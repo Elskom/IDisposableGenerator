@@ -27,7 +27,11 @@ internal class ClassItems
 
     public bool AddMethod(ISymbol member)
     {
-        this.Methods.Add(member.Name);
+        if (member is IMethodSymbol)
+        {
+            this.Methods.Add(member.Name);
+        }
+
         return true;
     }
 

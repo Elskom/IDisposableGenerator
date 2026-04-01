@@ -5,7 +5,7 @@ internal class WorkItem
     public string Namespace { get; set; } = null!;
     public List<ClassItems> Classes { get; } = [];
 
-    public ClassItems? GetClassItems(INamedTypeSymbol testClass)
+    public ClassItems? GetClassItems(ClassSymbolCache testClass)
         => this.Classes.FirstOrDefault(
             classItem => classItem.NameEquals(testClass.Name));
 
