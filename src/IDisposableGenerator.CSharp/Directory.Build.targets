@@ -1,10 +1,14 @@
 <Project>
 
   <ItemGroup>
+    <Using Include="IDisposableGenerator.Extensions" />
     <!-- Globally used Roslyn namespaces. -->
     <Using Include="Microsoft.CodeAnalysis" />
     <Using Include="Microsoft.CodeAnalysis.CSharp" />
     <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
+    <!-- Globally used System namespaces. -->
+    <Using Include="System.Collections.ObjectModel" />
+    <Using Include="System.Text" />
   </ItemGroup>
 
 </Project>

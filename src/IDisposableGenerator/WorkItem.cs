@@ -1,7 +1,5 @@
 namespace IDisposableGenerator;
 
-using System;
-
 internal class WorkItem
 {
     public string Namespace { get; set; } = null!;

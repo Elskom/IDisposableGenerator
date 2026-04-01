@@ -1,7 +1,5 @@
 ﻿namespace IDisposableGenerator;
 
-using System.Text;
-
 [Generator]
 public class IDisposableGeneratorCS : IIncrementalGenerator
 {
@@ -10,7 +8,7 @@ public class IDisposableGeneratorCS : IIncrementalGenerator
     {
         var workItemCollection = context.CompilationProvider.Select(
             static (c, _) => new WorkItemCollection(new CSharpGeneratedCodeWriter(((CSharpCompilation)c).LanguageVersion)));
-        SemanticHelper.RegisterSourceOutput<ClassDeclarationSyntax>(context, workItemCollection);
+        context.RegisterCommonSourceOutput<ClassDeclarationSyntax>(workItemCollection);
         context.RegisterPostInitializationOutput(static ctx =>
         {
             // Always generate the attributes.
