@@ -9,9 +9,10 @@ public partial class IDisposableGeneratorTests
     private static async Task RunTest<TestType>(
         string generatedSource,
         string testSource,
-        LanguageVersion? languageVersion = LanguageVersion.CSharp9,
+        LanguageVersion? languageVersion = LanguageVersion.CSharp12,
         List<string>? testSources = null,
-        Dictionary<string, string>? generatedSources = null)
+        Dictionary<string, string>? generatedSources = null,
+        List<DiagnosticResult>? expectedDiagnostics = null)
         where TestType : SourceGeneratorTest<DefaultVerifier>, IGeneratorTestBase, new()
     {
         var test = new TestType
@@ -31,25 +32,29 @@ public partial class IDisposableGeneratorTests
             case false when test is CSGeneratorTest tst:
             {
                 tst.LanguageVersion = languageVersion!.Value;
-                test.TestState.GeneratedSources.Add(
+                tst.TestState.GeneratedSources.Add(
                     (typeof(IDisposableGeneratorCS), "GeneratedAttributes.g.cs", Properties.Resources.AttributeCodeCSharp!));
+                if (languageVersion < LanguageVersion.CSharp12)
+                {
+                    tst.TestState.ExpectedDiagnostics.AddRange(expectedDiagnostics!);
+                }
                 if (generatedSources is not null
-                    && languageVersion == LanguageVersion.CSharp10)
+                    && languageVersion == LanguageVersion.CSharp12)
                 {
                     foreach (var source in testSources!)
                     {
-                        test.TestState.Sources.Add(source.ReplaceLineEndings());
+                        tst.TestState.Sources.Add(source.ReplaceLineEndings());
                     }
 
                     foreach (var (key, value) in generatedSources)
                     {
-                        test.TestState.GeneratedSources.Add(
+                        tst.TestState.GeneratedSources.Add(
                             (typeof(IDisposableGeneratorCS), key, value.ReplaceLineEndings()));
                     }
                 }
                 else
                 {
-                    test.TestState.GeneratedSources.Add(
+                    tst.TestState.GeneratedSources.Add(
                         (typeof(IDisposableGeneratorCS), "Disposables.g.cs", generatedSource.ReplaceLineEndings()));
                 }
 
@@ -63,11 +68,18 @@ public partial class IDisposableGeneratorTests
                     (typeof(IDisposableGeneratorVB), "Disposables.g.vb", generatedSource.ReplaceLineEndings()));
                 break;
             }
-            default:
-                test.TestState.GeneratedSources.Add(
+            case true when test is CSGeneratorTest tst:
+            {
+                tst.LanguageVersion = languageVersion!.Value;
+                tst.TestState.GeneratedSources.Add(
                     (typeof(IDisposableGeneratorCS), "GeneratedAttributes.g.cs", Properties.Resources.AttributeCodeCSharp!));
-                test.TestState.Sources.Clear();
+                tst.TestState.Sources.Clear();
+                if (languageVersion < LanguageVersion.CSharp12)
+                {
+                    tst.TestState.ExpectedDiagnostics.AddRange(expectedDiagnostics!);
+                }
                 break;
+            }
         }
 
         await test.RunAsync();
