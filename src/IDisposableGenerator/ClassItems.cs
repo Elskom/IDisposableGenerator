@@ -4,10 +4,14 @@ internal class ClassItems
 {
     public string? Name { get; set; }
     public Accessibility Accessibility { get; set; }
+    [Obsolete("TODO: Replace with !BaseIsDisposable && !BaseIsAsyncDisposable checks.")]
     public bool Stream { get; set; }
+    public bool IsAsyncDisposable { get; set; }
+    internal bool BaseIsDisposable { get; set; }
+    internal bool BaseIsAsyncDisposable { get; set; }
     public bool WithoutThrowIfDisposed { get; set; }
-    public List<ISymbol> Owns { get; } = [];
-    public List<ISymbol> Fields { get; } = [];
+    public List<(ISymbol Symbol, bool IsAsyncDisposable)> Owns { get; } = [];
+    public List<(ISymbol Symbol, bool IsAsyncDisposable)> Fields { get; } = [];
     public List<string> SetNull { get; } = [];
     public List<string> Methods { get; } = [];
 
@@ -39,11 +43,11 @@ internal class ClassItems
     {
         if ((bool)arg.Value!)
         {
-            this.Owns.Add(member);
+            this.Owns.Add(member.GetIsAsyncDisposableTuple());
         }
         else
         {
-            this.Fields.Add(member);
+            this.Fields.Add(member.GetIsAsyncDisposableTuple());
         }
 
         return true;
@@ -59,6 +63,7 @@ internal class ClassItems
         _ = result.Append($"Class: Name {this.Name}")
             .Append($", Accessibility: {this.Accessibility}")
             .Append($", Stream: {this.Stream}")
+            .Append($", IsAsyncDisposable: {this.IsAsyncDisposable}")
             .Append($", Without ThrowIfDisposed: {this.WithoutThrowIfDisposed}")
             .Append($", Owns Count: {this.Owns.Count}")
             .Append($", Fields Count: {this.Fields.Count}")

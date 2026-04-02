@@ -67,83 +67,14 @@ internal sealed class CSharpGeneratedCodeWriter(LanguageVersion languageVersion)
 ");
         }
 
-        _ = builder.Append($@"
-    {(!classItem.Stream ? $@"/// <summary>
-    /// Cleans up the resources used by <see cref=""{classItem.Name}""/>.
-    /// </summary>
-    public void Dispose()
-    {{
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
-    }}
+        // write normal IDisposable implementation first.
+        WriteDisposeImplementation(classItem, false, ref builder);
 
-    private" : @"/// <inheritdoc/>
-    protected override")} void Dispose(bool disposing)
-    {{
-        if (!this.isDisposed && disposing)
-        {{
-");
-        if (classItem.Methods.Count is not 0)
+        // now write IAsyncDisposable implementation if it is requested.
+        if (classItem.IsAsyncDisposable || classItem.BaseIsAsyncDisposable)
         {
-            foreach (var methodItem in classItem.Methods)
-            {
-                _ = builder.Append($@"            this.{methodItem}();
-");
-            }
+            WriteDisposeImplementation(classItem, true, ref builder);
         }
-
-        if (classItem.Owns.Count is not 0)
-        {
-            _ = builder.Append($@"            if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
-            {{
-");
-            foreach (var ownedItem in classItem.Owns)
-            {
-                // automatically set to null after Dispose().
-                _ = builder.Append($@"                this.{ownedItem.Name}?.Dispose();
-{(!ClassItems.IsReadOnlyField(ownedItem) ? $@"                this.{ownedItem.Name} = null;
-" : string.Empty)}");
-            }
-
-            _ = builder.Append(@"            }
-");
-        }
-
-        if (classItem.Fields.Count is not 0)
-        {
-            foreach (var fieldItem in classItem.Fields)
-            {
-                // automatically set to null after Dispose().
-                _ = builder.Append($@"            this.{fieldItem.Name}?.Dispose();
-{(!ClassItems.IsReadOnlyField(fieldItem) ? $@"            this.{fieldItem.Name} = null;
-" : string.Empty)}");
-            }
-        }
-
-        if (classItem.SetNull.Count is not 0)
-        {
-            foreach (var nullItem in classItem.SetNull)
-            {
-                _ = builder.Append($@"            this.{nullItem} = null;
-");
-            }
-        }
-
-        _ = builder.Append(@"            this.isDisposed = true;
-        }
-");
-        if (classItem.Stream)
-        {
-            _ = builder.Append(@"
-        // On Streams call base.Dispose(disposing)!!!
-        base.Dispose(disposing);
-");
-        }
-
-        _ = builder.Append("""
-                        }
-
-                    """);
 
         if (!classItem.WithoutThrowIfDisposed)
         {
@@ -162,10 +93,104 @@ internal sealed class CSharpGeneratedCodeWriter(LanguageVersion languageVersion)
 ");
     }
 
-    private static string GetInterfaceImplementations(ClassItems classItem)
-        => classItem.Stream switch
+    private static void WriteDisposeImplementation(ClassItems classItem, bool isAsync, ref StringBuilder builder)
+    {
+        var methodsignature = isAsync ? "async ValueTask DisposeAsync" : "void Dispose";
+        var methodSignatureCore = isAsync ? $"{methodsignature}Core" : methodsignature;
+        var methodName = isAsync ? "DisposeAsyncCore" : "Dispose";
+        var potentialAwait = isAsync ? "await " : string.Empty;
+        var configureAwait = isAsync ? ".ConfigureAwait(false)" : string.Empty;
+        _ = builder.Append($@"
+    {(!classItem.BaseIsDisposable || (isAsync && !classItem.BaseIsAsyncDisposable) ? $@"/// <summary>
+    /// Cleans up the resources used by <see cref=""{classItem.Name}""/>.
+    /// </summary>
+    public {methodsignature}()
+    {{
+        {potentialAwait}this.{(methodName == "DisposeAsyncCore" ? $"{methodName}(){configureAwait}" : $"{methodName}(true)")};
+        GC.SuppressFinalize(this);
+    }}
+
+    protected virtual" : @"/// <inheritdoc/>
+    protected override")} {(methodSignatureCore.EndsWith("Core") ? $"{methodSignatureCore}()" : $"{methodSignatureCore}(bool disposing)")}
+    {{
+{(isAsync ? string.Empty : @"        if (!this.isDisposed && disposing)
         {
-            false => " : IDisposable",
-            true => "",
+")}");
+        if (classItem.Methods.Count is not 0)
+        {
+            foreach (var methodItem in classItem.Methods)
+            {
+                _ = builder.Append($@"            this.{methodItem}();
+");
+            }
+        }
+
+        if (classItem.Owns.Count is not 0)
+        {
+            _ = builder.Append(isAsync ? $@"        if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
+        {{
+" : $@"            if ({(classItem.Stream ? "!this.KeepOpen" : "this.IsOwned")})
+            {{
+");
+            foreach (var (Symbol, IsAsyncDisposable) in classItem.Owns)
+            {
+                // automatically set to null after Dispose().
+                _ = builder.Append($@"                {potentialAwait}this.{Symbol.Name}?.{(isAsync && IsAsyncDisposable && (classItem.IsAsyncDisposable || classItem.BaseIsAsyncDisposable) ? "DisposeAsync" : "Dispose")}(){configureAwait};
+{(!ClassItems.IsReadOnlyField(Symbol) ? $@"                this.{Symbol.Name} = null;
+" : string.Empty)}");
+            }
+
+            _ = builder.Append(@"            }
+");
+        }
+
+        if (classItem.Fields.Count is not 0)
+        {
+            foreach (var (Symbol, IsAsyncDisposable) in classItem.Fields)
+            {
+                // automatically set to null after Dispose().
+                _ = builder.Append(isAsync ? $@"        {potentialAwait}this.{Symbol.Name}?.{(isAsync && IsAsyncDisposable && (classItem.IsAsyncDisposable || classItem.BaseIsAsyncDisposable) ? "DisposeAsync" : "Dispose")}(){configureAwait};
+{(!ClassItems.IsReadOnlyField(Symbol) ? $@"        this.{Symbol.Name} = null;
+" : string.Empty)}" : $@"            {potentialAwait}this.{Symbol.Name}?.Dispose();
+{(!ClassItems.IsReadOnlyField(Symbol) ? $@"            this.{Symbol.Name} = null;
+" : string.Empty)}");
+            }
+        }
+
+        if (classItem.SetNull.Count is not 0)
+        {
+            foreach (var nullItem in classItem.SetNull)
+            {
+                _ = builder.Append(isAsync ? $@"        this.{nullItem} = null;
+" : $@"            this.{nullItem} = null;
+");
+            }
+        }
+
+        _ = builder.Append(isAsync ? @"        this.isDisposed = true;
+" : @"            this.isDisposed = true;
+        }
+");
+        if (classItem.BaseIsDisposable || classItem.BaseIsAsyncDisposable)
+        {
+            _ = builder.Append($@"
+        // On disposable bases call base.{(methodName == "DisposeAsyncCore" ? $"DisposeAsync()" : $"{methodName}(disposing)")}!!!
+        {potentialAwait}base.{(methodName == "DisposeAsyncCore" ? $"DisposeAsync(){configureAwait}" : $"{methodName}(disposing)")};
+");
+        }
+
+        _ = builder.Append("""
+                        }
+
+                    """);
+    }
+
+    private static string GetInterfaceImplementations(ClassItems classItem)
+        => (!classItem.BaseIsDisposable, classItem.IsAsyncDisposable && !classItem.BaseIsAsyncDisposable) switch
+        {
+            (false, false) => string.Empty,
+            (true, false) => " : IDisposable",
+            // When IAsyncDisposable is implemented, IDisposable must be implemented as well which is as if they were both true.
+            (true, true) or (false, true) => " : IDisposable, IAsyncDisposable",
         };
 }

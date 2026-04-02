@@ -4,6 +4,39 @@ internal static class CommonExtensions
 {
     extension(ISymbol symbol)
     {
+        public bool IsDisposable()
+        {
+            var type = symbol switch
+            {
+                IFieldSymbol f => f.Type,
+                IPropertySymbol p => p.Type,
+                INamedTypeSymbol tp => tp,
+                _ => null
+            };
+
+            // Look for IDisposable
+            return type?.AllInterfaces.Any(
+                static i => i.ToDisplayString() == "System.IDisposable") ?? false;
+        }
+
+        public bool IsAsyncDisposable()
+        {
+            var type = symbol switch
+            {
+                IFieldSymbol f => f.Type,
+                IPropertySymbol p => p.Type,
+                INamedTypeSymbol tp => tp,
+                _ => null
+            };
+
+            // Look for IAsyncDisposable
+            return type?.AllInterfaces.Any(
+                static i => i.ToDisplayString() == "System.IAsyncDisposable") ?? false;
+        }
+
+        public (ISymbol Symbol, bool IsAsyncDisposable) GetIsAsyncDisposableTuple()
+            => (symbol, symbol.IsAsyncDisposable());
+
         public string FullNamespace()
         {
             var parts = new Stack<string>();
@@ -20,9 +53,6 @@ internal static class CommonExtensions
 
             return parts.Count == 0 ? string.Empty : string.Join(".", parts);
         }
-
-        public bool FullNamespaceEquals(string @namespace)
-            => symbol.FullNamespace().Equals(@namespace, StringComparison.Ordinal);
     }
 
     extension(StringBuilder source)
@@ -52,6 +82,9 @@ internal static class CommonExtensions
                         {
                             Name = nts!.Name,
                             Namespace = nts!.FullNamespace(),
+                            // IsAsyncDisposable = nts!.IsAsyncDisposable(),
+                            BaseIsDisposable = nts!.BaseType?.IsDisposable() ?? false,
+                            BaseIsAsyncDisposable = nts!.BaseType?.IsAsyncDisposable() ?? false,
                             DeclaredAccessibility = nts!.DeclaredAccessibility,
                             ClassAttributes = nts!.GetAttributes(),
                             MemberAttributes = nts!.GetMembers().ToImmutableDictionary(
