@@ -21,4 +21,3 @@ jobs:
       uses: Elskom/build-dotnet@main
       with:
         TEST: true
-        ADDITIONAL_TEST_ARGS: ' --coverlet --coverlet-output-format opencover --results-directory ./tests'

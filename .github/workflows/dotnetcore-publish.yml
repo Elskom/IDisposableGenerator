@@ -26,4 +26,3 @@ jobs:
       with:
         TEST: true
         PUSH: true
-        ADDITIONAL_TEST_ARGS: ' --coverlet --coverlet-output-format opencover --results-directory ./tests'
