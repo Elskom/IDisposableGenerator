@@ -61,8 +61,36 @@ Namespace {workItem.Namespace}
 ");
         }
 
+        WriteDisposeImplementation(classItem, false, ref result);
+        if (classItem.IsAsyncDisposable)
+        {
+            WriteDisposeImplementation(classItem, true, ref result);
+        }
+
+        if (!classItem.WithoutThrowIfDisposed)
+        {
+            _ = result.Append($$"""
+
+                                Friend Sub ThrowIfDisposed()
+                                    If Me.isDisposed Then
+                                        Throw New ObjectDisposedException(NameOf({{classItem.Name}}))
+                                    End If
+                                End Sub
+
+                        """);
+        }
+
+        _ = result.Append("""
+                        End Class
+
+                    """);
+        return result.ToString();
+    }
+
+    private static void WriteDisposeImplementation(ClassItems classItem, bool isAsync, ref StringBuilder result)
+    {
         _ = result.Append($@"
-        {(!classItem.Stream ? $@"''' <summary>
+        {(!classItem.BaseIsDisposable || (isAsync && !classItem.BaseIsAsyncDisposable) ? $@"''' <summary>
         ''' Cleans up the resources used by <see cref=""{classItem.Name}""/>.
         ''' </summary>
         Public Sub Dispose() Implements IDisposable.Dispose
@@ -90,8 +118,8 @@ Namespace {workItem.Namespace}
             foreach (var ownedItem in classItem.Owns)
             {
                 // automatically set to null after Dispose().
-                _ = result.Append($@"                    Me.{ownedItem.Name}?.Dispose()
-{(!ClassItems.IsReadOnlyField(ownedItem) ? $@"                    Me.{ownedItem.Name} = Nothing
+                _ = result.Append($@"                    Me.{ownedItem.Symbol.Name}?.Dispose()
+{(!ClassItems.IsReadOnlyField(ownedItem.Symbol) ? $@"                    Me.{ownedItem.Symbol.Name} = Nothing
 " : string.Empty)}");
             }
 
@@ -104,8 +132,8 @@ Namespace {workItem.Namespace}
             foreach (var fieldItem in classItem.Fields)
             {
                 // automatically set to null after Dispose().
-                _ = result.Append($@"                Me.{fieldItem.Name}?.Dispose()
-{(!ClassItems.IsReadOnlyField(fieldItem) ? $@"                Me.{fieldItem.Name} = Nothing
+                _ = result.Append($@"                Me.{fieldItem.Symbol.Name}?.Dispose()
+{(!ClassItems.IsReadOnlyField(fieldItem.Symbol) ? $@"                Me.{fieldItem.Symbol.Name} = Nothing
 " : string.Empty)}");
             }
         }
@@ -122,10 +150,10 @@ Namespace {workItem.Namespace}
         _ = result.Append(@"                Me.isDisposed = True
             End If
 ");
-        if (classItem.Stream)
+        if (classItem.BaseIsDisposable || classItem.BaseIsAsyncDisposable)
         {
             _ = result.Append(@"
-            ' On Streams call MyBase.Dispose(disposing)!!!
+            ' On disposable bases call MyBase.Dispose(disposing)!!!
             MyBase.Dispose(disposing)
 ");
         }
@@ -134,33 +162,19 @@ Namespace {workItem.Namespace}
                             End Sub
 
                     """);
-
-        if (!classItem.WithoutThrowIfDisposed)
-        {
-            _ = result.Append($$"""
-
-                                Friend Sub ThrowIfDisposed()
-                                    If Me.isDisposed Then
-                                        Throw New ObjectDisposedException(NameOf({{classItem.Name}}))
-                                    End If
-                                End Sub
-
-                        """);
-        }
-
-        _ = result.Append("""
-                        End Class
-
-                    """);
-        return result.ToString();
     }
 
     private static string GetInterfaceImplementations(ClassItems classItem)
-        => classItem.Stream switch
+        => (!classItem.BaseIsDisposable, classItem.IsAsyncDisposable && !classItem.BaseIsAsyncDisposable) switch
         {
-            false => @"
+            (false, false) => string.Empty,
+            (true, false) => @"
         Implements IDisposable
 ",
-            true => "",
+            // When IAsyncDisposable is implemented, IDisposable must be implemented as well which is as if they were both true.
+            (true, true) or (false, true) => @"
+        Implements IDisposable
+        Implements IAsyncDisposable
+",
         };
 }

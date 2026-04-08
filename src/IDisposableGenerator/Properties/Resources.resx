@@ -163,7 +163,8 @@ namespace IDisposableGenerator
         /// Initializes a new instance of the &lt;see cref="GenerateDisposeAttribute"/&gt; class.
         /// &lt;/summary&gt;
         /// &lt;param name="stream"&gt;&lt;see langword="true" /&gt; if the &lt;see langword="class"/&gt; is a &lt;see cref="Stream" /&gt; based &lt;see langword="class"/&gt;, &lt;see langword="false" /&gt; otherwise.&lt;/param&gt;
-        public GenerateDisposeAttribute(bool stream)
+        /// &lt;param name="includeAsyncDispose"&gt;&lt;see langword="true" /&gt; if the &lt;see langword="class"/&gt; is required to include the async dispose methods as well, &lt;see langword="false" /&gt; otherwise.&lt;/param&gt;
+        public GenerateDisposeAttribute(bool stream, bool includeAsyncDispose)
         {
         }
     }
@@ -246,7 +247,8 @@ Namespace IDisposableGenerator
         ''' Initializes a new instance of the &lt;see cref="GenerateDisposeAttribute"/&gt; class.
         ''' &lt;/summary&gt;
         ''' &lt;param name="stream"&gt;&lt;see langword="true" /&gt; if the &lt;see langword="class"/&gt; is a &lt;see cref="Stream" /&gt; based &lt;see langword="class"/&gt;, &lt;see langword="false" /&gt; otherwise.&lt;/param&gt;
-        Public Sub New(stream As Boolean)
+        ''' &lt;param name="includeAsyncDispose"&gt;&lt;see langword="true" /&gt; if the &lt;see langword="class"/&gt; is required to include the async dispose methods as well, &lt;see langword="false" /&gt; otherwise.&lt;/param&gt;
+        Public Sub New(stream As Boolean, includeAsyncDispose As Boolean)
         End Sub
     End Class
 

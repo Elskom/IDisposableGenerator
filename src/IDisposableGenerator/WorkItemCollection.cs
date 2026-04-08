@@ -18,7 +18,7 @@ internal class WorkItemCollection(IGeneratedCodeWriter generatedCodeWriter)
                     Namespace = testClass.Namespace,
                 };
             ct.ThrowIfCancellationRequested();
-            var classItem = GetClassItem(testClass!);
+            var classItem = GetClassItem(testClass);
             if (classItem is null)
             {
                 continue;
@@ -57,6 +57,9 @@ internal class WorkItemCollection(IGeneratedCodeWriter generatedCodeWriter)
                     result.Name = testClass.Name;
                     result.Accessibility = testClass.DeclaredAccessibility;
                     result.Stream = (bool)attr.ConstructorArguments[0].Value!;
+                    result.IsAsyncDisposable = (bool)attr.ConstructorArguments[1].Value!;
+                    result.BaseIsDisposable = testClass.BaseIsDisposable;
+                    result.BaseIsAsyncDisposable = testClass.BaseIsAsyncDisposable;
                     break;
                 case "WithoutThrowIfDisposedAttribute":
                     result.WithoutThrowIfDisposed = true;

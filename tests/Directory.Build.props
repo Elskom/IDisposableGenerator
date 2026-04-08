@@ -9,7 +9,7 @@
     <!-- <CoverletOutputFormat>opencover</CoverletOutputFormat>
     <CoverletOutput>$(MSBuildThisFileDirectory)coverage.codacy.opencover.xml</CoverletOutput> -->
     <ImplicitUsings>enable</ImplicitUsings>
-    <TestingPlatformCommandLineArguments>--coverlet --coverlet-output-format opencover --results-directory $(MSBuildThisFileDirectory)</TestingPlatformCommandLineArguments>
+    <TestingPlatformCommandLineArguments>--coverlet --coverlet-output-format opencover --coverlet-exclude "[Microsoft.CodeAnalysis.*]*" --coverlet-exclude "[Humanizer]*" --coverlet-exclude "[testhost]*" --results-directory $(MSBuildThisFileDirectory)</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
 </Project>
