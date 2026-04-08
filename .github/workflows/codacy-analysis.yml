@@ -34,13 +34,12 @@ jobs:
         with:
           TEST: true
           PACK: false
-          ADDITIONAL_TEST_ARGS: ' --coverlet --coverlet-output-format opencover --results-directory ./tests'
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
         with:
           api-token: ${{ secrets.CODACY_API_TOKEN }}
-          coverage-reports: tests/coverage.opencover.xml
+          coverage-reports: tests/coverage.opencover.*.xml
 
       # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Run Codacy Analysis CLI
